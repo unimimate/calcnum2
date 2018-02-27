@@ -1,0 +1,308 @@
+\documentclass[hidelinks, 10pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{bbm}
+\usepackage{marvosym}
+\usepackage{xcolor}
+\usepackage{blindtext}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{cancel}
+\usepackage{breqn}
+\usepackage{verbatim}
+\usepackage{mathtools}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{array}
+\usepackage{tikz}
+% \usepackage[a4paper]{geometry}
+
+\usetikzlibrary{arrows, automata, backgrounds, calendar, chains, matrix, mindmap, patterns, petri, shadows, shapes.geometric, shapes.misc, spy, trees}
+
+\author{Andreas Veeser}
+\date{A.A. 2017-2018}
+\title{Calcolo numerico 2}
+
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+
+\begin{document}
+\providecommand{\defeq}{\vcentcolon=}
+\providecommand{\compl}[1]{\prescript{c}{}{#1}}
+\providecommand{\norm}[1]{\Vert {#1} \Vert\,}
+\providecommand{\card}[1]{\vert {#1} \vert\,}
+\providecommand{\ristrettaA}[1]{_{\vert_{#1}}}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Teorema}[]
+\renewcommand{\thesection}{\arabic{section}}
+
+\theoremstyle{definition}
+\newtheorem{defn}[]{Definizione}
+\newtheorem{prop}[]{Proposizione}
+\newtheorem{cor}[]{Corollario}
+\newtheorem{lem}[]{Lemma}
+\newtheorem{oss}[]{Osservazione}
+\newtheorem{nota}[]{Nota}
+\newtheorem{es}[]{Esempio}
+\newtheorem{ex}[]{Esercizio}
+
+\maketitle
+\chapter{Introduzione}
+\section{Discretizzazione di un problema ai valori iniziali}
+\subsection{Problema ai valori iniziali}
+Dati:
+\begin{itemize}
+\item $ t_{0} \in \mathbb{R} $ tempo iniziale;
+\item $ T \in \mathbb{R} $ con $ T > t_{0} $ tempo finale;
+\item $ I = [t_{0}, T] $ un intervallo;
+\item $ f: I \times \mathbb{R} \to \mathbb{R} $ una funzione;
+\item $ v \in \mathbb{R} $ valore iniziale;
+\end{itemize}
+
+l'obiettivo di un problema ai valori iniziali \`e quello di trovare $ u: I \to \mathbb{R} $ tale che
+\[
+\begin{cases}
+u' = f(\cdot, u) \\
+u(t_{0}) = v
+\end{cases}
+\]
+
+o, meglio, $ \forall\ t \in I $
+
+\begin{equation}	\label{eq:PVI}
+\begin{cases}
+u'(t) = f \left( t, u(t) \right) \\
+u(t_{0}) = v
+\end{cases}
+\end{equation}
+
+In generale $ u $ non \`e nota esplicitamente e quindi l'ottenere informazioni quantitative, come ad esempio $ u(T) $, richiede una risoluzione numerica. In $ (\ref{eq:PVI}) $ si celano un'infinit\`a di condizioni.
+
+\subsection{Le griglie}
+Un'equazione differenziale ordinaria (EDO) consiste di un numero infinito di condizioni, dato che $ t \in I $, linearmente indipendenti. Non si possono neanche verificare sul computer in tempo finito. Pertanto, si introduce una griglia (o \emph{mesh}) dell'intervallo $ I $:
+
+\[ M_{N} = \{ t_{n} \defeq t_{0} + n \tau : n = 0, \dotsc, N \} \]
+
+dove:
+\begin{itemize}
+\item $ N \in \mathbb{N} $ \`e il numero di passi;
+\item $ \tau \defeq \frac{T - t_{0}}{N} $ \`e il passo temporale.
+\end{itemize}
+
+% TODO: disegno
+
+\subsection{Sostituzione dell'operatore differenziale}
+Data ad esempio $ t \in U_{N} $, neanche $ f \left( t, u(t) \right) = u'(t) $ \`e verificabile al computer poich\'e in generale
+
+\[ u'(t) = \lim\limits_{h \to 0} \frac{u(t + h) - u(t)}{h} \]
+
+coinvolge un numero infinito di operazioni. Se si usa l'approssimazione
+
+\[ u'(t) \approx \frac{u(t + h) - u(t)}{h} \]
+
+con $ t = t_{n} $ e $ h = t_{n + 1} - t_{n} = \tau $ si ottiene
+
+\[
+\begin{cases}
+u(t_{0}) = v \\
+\frac{u(t_{n + 1}) - u(t_{n})}{\tau} \approx f \left( t_{n}, u(t_{n}) \right)
+\end{cases}
+\]
+
+Il pregio \`e che questo sistema \`e discreto, rispetto a $ (\ref{eq:PVI}) $.
+
+Sostituendo $ \{ u(t_{n}) \}_{n = 0}^{N} $ con una successione finita incognita $ \{ U_{n} \} $ si ottiene
+
+\begin{equation}	\label{eq:EE}
+\begin{cases}
+U_{0} = v \\
+\frac{U_{n + 1} - U_{n}}{\tau} = f(t_{n}, U_{n})
+\end{cases}
+\end{equation}
+
+Dal momento che $ \frac{U_{n + 1} - U_{n}}{\tau} = f(t_{n}, U_{n}) \iff U_{n + 1} = U_{n} + \tau f(t_{n}, U_{n}) $, gli $ U_{n} $ possono essere facilmente (persino velocemente) calcolati con un'interazione da $ U_{0} = v $. $ (\ref{eq:EE}) $ viene chiamato metodo di Eulero esplicito.
+
+\section{Equazioni differenziali ordinarie}
+\subsection{Richiamo sulle derivate}
+Sia $ I $ un intervallo non degenere, cio\`e sia $ I $ in una delle seguenti forme:
+\begin{itemize}
+\item $ I = (a, b) $;
+\item $ I = [a, b) $;
+\item $ I = (a, b] $;
+\item $ I = [a, b] $; 
+\end{itemize}
+
+con $ a, b \in \overline{\mathbb{R}} \defeq \mathbb{R} \cup \{ - \infty, + \infty \} $ tali che $ a < b $. Inoltre sia $ d \in \mathbb{N} $. Una funzione $ v: I \to \mathbb{R}^{d} $ si dice derivabile in $ t \in I $ se esiste
+
+\[ v'(t) = \lim\limits_{s \to t} \frac{v(s) - v(t)}{s - t} \]
+
+Dove definito, si pone, $ \forall\ t \in I $
+
+\[
+\begin{cases}
+v^{(0)}(t) = v(t) \\
+v^{(k + 1)}(t) = (v^{(k)})' (t) 
+\end{cases}
+\]
+
+\subsection{Equazione differenziale ordinaria esplicita}
+Siano $ d, k \in \mathbb{N} $, $ \Omega \subseteq \mathbb{R} \times \mathbb{R}^{kd} $ un insieme aperto e connesso.
+
+\begin{itemize}
+\item Una funzione $ u: I \to \mathbb{R}^{d} $ si dice soluzione dell'equazione differenziale ordinaria esplicita se
+
+\[
+u^{(k)} = f \left( \cdot, u^{(0)}, \dotsc, u^{(k - 1)} \right)
+\]
+
+cio\`e se $ \forall\ t \in I, \exists\ u^{(0)}(t), \dotsc, u^{(k)}(t) $ e 
+
+\begin{equation}	\label{eq:EDO}
+u^{(k)}(t) = f \left( t, u^{(0)}(t), \dotsc, u^{(k - 1)}(t) \right)
+\end{equation}
+
+$ d $ si dice dimensione dell'equazione differenziale ordinaria e $ k $ \`e il suo ordine.
+
+\item $ (\ref{eq:EDO}) $ si dice autonomo se $ \exists\ \Omega_{0} \subseteq \mathbb{R}^{kd} $ e $ f_{0}: \Omega_{0} \to \mathbb{R}^{d} $ tale che $ \Omega = \mathbb{R} \times \Omega_{0} $ e $ \forall\ t \in \mathbb{R}, z \in \Omega_{0} $ si ha che $ f(t, z) = f_{0} (z) $;
+\item $ (\ref{eq:EDO}) $ si dice lineare se 
+
+\[ f(t, z) = \sum\limits_{i = 0}^{k - 1} a_{i} (t) z_{i} + b(t) \]
+
+dove $ a_{0}, \dotsc, a_{k - 1}: \mathbb{R} \to \mathbb{R}^{d \times d} $ e $ b: \mathbb{R} \to \mathbb{R}^{d} $. Inoltre se $ b \equiv 0 $ si dice omogeneo, altrimenti non omogeneo.
+\end{itemize}
+
+\subsection{Qualche esempio}
+\noindent
+\begin{enumerate}
+\item Dato $ \lambda \in \mathbb{R} $ si consideri $ u' = \lambda u $ in $ \mathbb{R} $. Tale equazione differenziale ha dimensione 1, ordine 1, \`e autonomo, lineare e omogeneo. Le soluzioni assumono la seguente forma:
+
+\[ u(t) = C \exp(\lambda t) \]
+
+con $ C \in \mathbb{R} $.
+
+\begin{itemize}
+\item Se $ \lambda > 0 $ si parla di crescita esponenziale ed \`e facilmente calcolabile con il metodo di Eulero esplicito;
+\item Se $ \lambda < 0 $ si parla di decrescita esponenziale e si riscontrano problemi nel calcolo con il metodo di Eulero esplicito.
+\end{itemize}
+
+\item Un modello di crescita pi\`u flessibile \`e l'equazione di Verhulst
+
+\[ u' = \lambda u \left( 1 - \frac{u}{k} \right) \]
+
+che ha dimensione 1, ordine 1, \`e autonoma ma non \`e lineare. La soluzione generale \`e 
+
+\[ u(t) = \frac{K C \exp (\lambda t)}{K + C (\exp (\lambda t) - 1)} \]
+
+\item Dato un campo vettoriale $ f: \mathbb{R}^{3} \to \mathbb{R}^{3} $ la seconda legge di Newton pu\`o assumere la seguente forma in $ \mathbb{R} $:
+
+\[ u'' = f(u) \]
+
+che ha dimensione 3, ordine 2, \`e autonomo e in generale non \`e lineare. Il sottocaso lineare $ f(z) = - kz $, con $ z \in \mathbb{R}^{3} $, $ k \in \mathbb{R}^{d \times d} $ si dice oscillatore armonico;
+
+\item Si consideri l'oscillatore armonico in una dimensione e con $ k  = 1 $:
+
+\[ u'' = - u \]
+
+Introducendo la nuova variabile $ v = u' $ si pu\`o riscrivere l'equazione con il seguente sistema
+
+\[
+\begin{cases}
+u' = v \\
+v' = -u
+\end{cases} \iff \begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix} ' = \begin{pmatrix}
+	 0 & 1 \\
+	-1 & 0 \\
+\end{pmatrix} \begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}
+\]
+
+e con $ z = u + iv \in \mathbb{C} $ il problema diventa
+
+\[ z' = -i z \]
+
+poich\'e $ -i(u + iv) = -i u + v $. Questo corrisponde all'esempio $ 1. $ in $ \mathbb{C} $ con $ \lambda = -i $.
+\end{enumerate}
+
+\section{Problemi ai valori iniziali}
+Le applicazioni e le soluzioni generali degli esempi nel paragrafo precedente suggeriscono di porre ulteriori condizioni per individuare una soluzione di un'equazione differenziale ordinaria.
+
+\subsection{Problema ai valori iniziali}
+Siano $ d, k \in \mathbb{N} $, $ \Omega \subseteq \mathbb{R} \times \mathbb{R}^{kd} $ dominio aperto e connesso. Sia $ f: \Omega \to \mathbb{R}^{d} $, $ (t_{0}, v_{0}, \dotsc, v_{k-1}) \in \Omega $, $ t_{0} < T $ e $ I = [t_{0}, T] $.
+
+Una funzione $ u: I \to \mathbb{R}^{d} $ si dice soluzione di $ u^{(k)} = f(\cdot, u^{(0)}, \dotsc, u^{(k-1)}) $ con $ u^{(i)} (t_{0}) = v_{i} $ con $ i = 0, \dotsc, k - 1 $ se:
+\begin{enumerate}
+\item $ u $ \`e derivabile con continuit\`a $ k $ volte in $ I $ e $ \forall\ t \in I, \left( t, u^{(0)}(t), \dotsc, u^{(k-1)}(t) \right) \in \Omega $;
+\item $ u^{(i)} (t_{0}) = v_{i} $ per $ i = 0, \dotsc, k - 1 $;
+\item $ \forall\ t \in I, u^{(k)}(t) = f \left( t, u(t), \dotsc, u^{(k-1)}(t) \right) $.
+\end{enumerate}
+
+Introducendo nuove variabili, cio\`e aumentando $ d $, ci si pu\`o sempre  ridursi al caso $ k = 1 $. Da ora in poi si considerer\`a $ k = 1 $.
+
+\subsection{Un esempio di non-unicit\`a}
+Si consideri in $ [0, +\infty) $
+
+\[ \begin{cases}
+u' = 3 u^{\frac{2}{3}} \\
+u(0) = 0
+\end{cases}
+\]
+
+cio\`e $ \Omega = \mathbb{R} \times \mathbb{R}^{+}_{0} $, $ t_{0} = 0 $, $ v = 0 $, $ f(z) = 3 z^{\frac{2}{3}} $. Si osserva che
+\begin{itemize}
+\item $ u_{1}(t) \equiv 0 $
+\item $ u_{2}(t) = t^{3} $
+\end{itemize}
+sono soluzioni del problema considerato. Si noti inoltre che
+
+\[ \lim\limits_{z \to 0^{+}} f'(z) = \lim\limits_{z \to 0^{+}} 2 z^{-\frac{1}{3}} = \infty \]
+
+\subsection{Un criterio di unicit\`a (per $ k = 1 $)}
+Nelle ipotesi di \S 3.1 si supponga che $ k = 1 $. Se $ [f(t, z_{1}) - f(t, z_{2})] \cdot [z_{1} - z_{2}] \le l \vert z_{1} - z_{2} \vert^{2}, \forall\ (t, z_{1}), (t, z_{2}) \in \Omega $, dove
+\begin{itemize}
+\item $ \cdot $ \`e il prodotto scalare in $ \mathbb{R}^{d} $
+\item $ l \in \mathbb{R} $
+\end{itemize}
+
+allora due soluzioni $ u_{1}, u_{2}: I \to \mathbb{R} $ di $ (\ref{eq:PVI}) $ coincidono in $ \mathcal{C}(I, \mathbb{R}^{d}) $.
+
+\begin{proof}
+$ \forall\ t \in I $ si ha
+
+\begin{dmath*}
+{ \frac{\mathrm{d}}{\mathrm{d}t} \left[ \frac{1}{2} \vert u_{1}(t) - u_{2}(t) \vert^{2} \right] } = { \left( u_{1}(t) - u_{2}(t) \right) \cdot \left( u_{1}' (t) - u_{2}' (t) \right) } = \\ { [ f \left( t, u_{1}(t) \right) - f \left( t, u_{2}(t) \right) ] \cdot [u_{1}(t) - u_{2}(t)] } \le { l \vert u_{1}(t) - u_{2} (t) \vert^{2} }
+\end{dmath*}
+
+Quindi
+
+\[ d(t) \defeq \frac{1}{2} e^{-2lt} \vert u_{1}(t) - u_{2}(t) \vert^{2} \]
+
+soddisfa
+
+\[ d'(t) \le -l e^{-2lt} \vert u_{1}(t) - u_{2}(t) \vert^{2} + e^{-2lt} l \vert u_{1}(t) - u_{2}(t) \vert^{2} = 0 \]
+
+da cui
+
+\[ d(s) = \underbrace{d(0)}_{= 0} + \int\limits_{0}^{s} \underbrace{d'(t)}_{\le 0} \, \mathrm{d}t \]
+
+e quindi, in $ I $
+
+\[ d(t) \equiv 0 \implies u_{1} \equiv u_{2}  \]
+\end{proof}
+
+\end{document} 
