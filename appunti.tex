@@ -305,4 +305,39 @@ e quindi, in $ I $
 \[ d(t) \equiv 0 \implies u_{1} \equiv u_{2}  \]
 \end{proof}
 
+\section{Metodi numerici e condizionamento}
+\subsection{Metodi numerici}
+
+Un metodo numerico \`e una "mappa" del tipo
+
+\begin{center}
+(problema continuo, parametro) $ \mapsto $ problema discreto
+\end{center}
+
+Ad esempio in \S 1 abbiamo associato al problema continuo $ \ref{eq:PVI} $ e al parametro $ N \in \mathbb{N} $ il problema discreto $ (\ref{eq:EE}) $ con $ t_{n} = t_{0} + n \tau $ e $ \tau = \frac{T - t_{0}}{N} $. Si noti che i $ t_{i} $ sono tutti equidistanti. Se non lo fossero, come in metodi che verranno affrontati successivamente, al posto di un parametro si dovrebbe inserire un vettore di punti che formano la griglia dei tempi. Anche questa soluzione non \`e generale poich\'e alcuni metodi prevedono un ordine preciso di uso dei tempi $ t_{i} $. Per ora saranno considererati solo metodi con griglia equidistante.
+
+I metodi "numerici" sono un modello dei metodi "computazionali".
+
+\subsection{Convergenza}
+Per valutare la bont\`a  di un metodo numerico \`e interessante bilanciare costo e qualit\`a: nel caso di \S 1, ad esempio, sarebbe il bilanciamento di $ N $, dato che il numero dei passi \`e uguale al numero di valutazioni della $ f $ e quindi \`e approssimabile al costo computazionale, oppure  $ \max\limits_{n = 0, \dotsc, N} \vert u(t_{n})  - U_{n} \vert $. In particolare ci interessano le stime del tipo $ \max\limits_{n = 0, \dotsc, N} \vert u(t_{n})  - U_{n} \vert \le C N^{-p} $, con $ p > 0 $, che qualifica anche la velocit\`a di convergenza.
+
+\subsection{Buona posizione e buon posizionamento}
+I problemi continui e discreti dovrebbero essere ben posti, cio\`e, secondo Hadamard:
+\begin{enumerate}
+\item deve esistere almeno una soluzione;
+\item deve esistere al pi\`u una soluzione;
+\item la soluzione deve dipendere in modo continuo dai dati.
+\end{enumerate}
+
+Nel caso di $ (\ref{eq:PVI}) $ i dati sono $ f $ e $ v $. Inoltre, il problema discreto che viene "risolto" sul computer con aritmetica finita dovrebbe essere in particolare ben condizionato, cio\`e:
+\begin{enumerate}
+\item[4.] piccole perturbazioni nei dati producono piccole perturbazioni nella soluzione.
+\end{enumerate}
+
+Poich\'e il problema discreto discende dal problema continuo e si spera che lo "diventi" per $ N \to +\infty $, anche il problema continuo dovrebbe essere ben condizionato. Si noti che il punto 2 pu\`o essere riscritto nel seguente modo:
+\begin{enumerate}
+\item[2b.] nessuna perturbazione nei dati, quindi nessuna perturbazione nella soluzione.  
+\end{enumerate}
+
+In altre parole, prima di comprendere il punto 3 bisogna comprendere il punto 2.
 \end{document} 
