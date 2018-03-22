@@ -340,4 +340,264 @@ Poich\'e il problema discreto discende dal problema continuo e si spera che lo "
 \end{enumerate}
 
 In altre parole, prima di comprendere il punto 3 bisogna comprendere il punto 2.
-\end{document} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+										MANCANO LE LEZIONI 5 E 6!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Consistenza e regolarit\`a}
+\section{Preliminari}
+\subsection{Evoluzione}
+Sia $ \Omega \subseteq \mathbb{R} \times \mathbb{R}^{d} $, $ f: \Omega \to \mathbb{R}^{d} $ tale che $ \forall\ (t_{0}, v) \in \Omega $ il problema
+
+\begin{equation}	\label{eq:probevol}
+\begin{cases}
+u' = f(\cdot, u) \\
+u(t_{0}) = v
+\end{cases}
+\end{equation}
+
+ha un'unica soluzione massimale $ u(t_{0}, v) : [t_{0}, T(t_{0}, v)] \to \mathbb{R}^{d} $ derivabile in $ t_{0} $. Qui massimale significa che se $ \tilde{u} : [t_{0}, \tilde{T}] \to \mathbb{R}^{d} $ \`e un'altra soluzione allora $ \tilde{T} < T(t_{0}, v) $ e $ \tilde{u} = u $ su $ [t_{0}, \tilde{T}) $
+
+Si pone quindi, $ \forall\ t \in [t_{0}, T(t_{0}, v)] $
+
+\[ \varphi(t, t_{0}) v = u_{(t_{0}, v)} (t) \]
+
+chiamata evoluzione di $ f $.
+
+\begin{oss}
+\noindent
+\begin{enumerate}
+\item $ \varphi(t_{0}, t_{0}) v = v $;
+\item Se $ t_{0} \le t_{1} \le t_{2} \le t_{3} < T(t_{0}, v) $ allora $ \varphi(t_{3}, t_{2}) \varphi(t_{2}, t_{1}) v = \varphi(t_{3}, t_{1}) v $;
+\item $ \lim\limits_{\tau \to 0^{+}} \frac{\mathrm{d}}{\mathrm{d} \tau} \varphi (t + \tau, t)v = \lim\limits_{\tau \to 0^{+}} \frac{\varphi(t + \tau, t)v - \varphi(t, t)v}{\tau} = f(t, v) $
+\end{enumerate}
+\end{oss}
+
+\subsection{Metodi a un passo}
+
+Siano $ \Omega, f $ e $ \varphi $ come nel capitolo precedente. Un metodo ad un passo associa a $ f $ una funzione incremento $ F = F(t, z, \tau), \forall\ (t, z) \in \Omega, \tau \in [0, \tau(t, z)] $ con $ \tau(t, z) > 0 $. Posto
+
+\[ \Phi (t_{1}, t_{2}) v = v + (t_{2} - t_{1}) F(t_{1}, v, t_{2} - t_{1}) \]
+
+una soluzione approssimata di $ (\ref{eq:probevol}) $ in \S 7.1 sulla griglia
+
+\[ t_{0} < t_{1} < \dotsb < t_{N} \]
+
+\`e data da 
+
+\[
+\begin{cases}
+U_{n+1} = \Phi(t_{n + 1}, t_{n}) U_{n} \\
+U_{0} = v
+\end{cases}
+\]
+
+\begin{oss}
+\noindent
+\begin{enumerate}
+\item $ \Phi(t_{n+1}, t_{n}) v $ vuole approssimare $ \varphi(t_{n + 1}, t_{n}) $
+\item Per il calcolo di $ U_{N} $ non \`e necessario memorizzare $ U_{0}, \dotsc, U_{N - 2} $
+\item $ \Phi (t_{0}, t_{0}) v = v $ ma in generale non si ha, per $ 0 \le n \le k \le l \le N $
+
+\[ \Phi(t_{l}, t_{k}) \Phi(t_{k}, t_{n}) v  = \Phi(t_{l}, t_{n}) v \]
+\end{enumerate}
+\end{oss}
+
+\begin{es}
+Per il metodo di Eulero esplicito si ha, con $ (t, z) \in \Omega, T > 0 $
+
+\[ F(t, z, \tau) = f(t, z) \]
+\end{es}
+
+\subsection{Teorema di Taylor}
+
+Sia $ I $ intervallo, $ r \in \mathbb{N} $ e $ u \in \mathcal{C}^{r} (I, \mathbb{R}^{d}) = \{ w : I \to \mathbb{R}^{d} : w^{(0)}, \dotsc, w^{(r)} \text{ esistono e sono continue in } I \} $. Allora
+
+\[ \underbrace{u(s)}_{\in I} = \sum\limits_{k = 0}^{r - 1} \frac{u^{(k)}(t)}{k!} (s - t)^{k} + \frac{1}{(k - 1)!} \int\limits_{t}^{s} u^{(r)} (\xi) (s - t)^{r} \, \mathrm{d}\xi \]
+
+\begin{proof}
+Analisi
+\end{proof}
+
+\subsection{Simboli di Landau}
+
+Sia $ f: [0, \tau^{\ast}] \to \mathbb{R}^{d} $ e $ b: [0, \tau^{\ast}] \to \mathbb{R}^{\ast} = \mathbb{R} \setminus \{ 0 \} $.
+
+\begin{itemize}
+\item $ f = O (b) $ per $ \tau \to 0 $ se $ \exists\ C \ge 0, \tau_{0} \in (0, \tau^{\ast}) : \vert f(\tau) \vert \le C b(\tau) $
+\item $ f = o(b) $ per $ \tau \to 0 $ se $ \lim\limits_{\tau \to 0^{+}} \frac{\vert f(\tau) \vert}{b(\tau)} = 0 $
+\end{itemize}
+
+\begin{es}
+\noindent
+\begin{itemize}
+\item $ u $ continua in $ t \implies u(t + \tau) = u(t) + o(1) $ per $ \tau \to 0 $;
+\item $ u $ lipschitziana $ \implies u(t + \tau) = u(t) + O(\tau) $;
+\item $ u $ \`e derivabile in $ t \implies u(t + \tau) = u(t) + u'(t) \tau + o(\tau) $
+\end{itemize}
+\end{es}
+
+\section{Consistenza di metodi a un passo}
+\subsection{Definizione di consistenza}
+
+Un metodo ad un passo con $ \Phi $ e $ F $ si dice consistente per $ u' = f(\cdot, u) $ se una delle seguenti condizioni equivalenti \`e soddisfatta:
+
+\begin{enumerate}
+\item $ \forall\ (t, z) \in \Omega, \lim\limits_{\tau \to 0^{+}} \frac{\mathrm{d}}{\mathrm{d} \tau} \Phi(t + \tau, t)z = f(t, z) $
+\item $ \forall\ (t, z) \in \Omega, \lim\limits_{\tau \to 0} F(t, z, \tau) = f(t, z) $
+\item $ \forall\ (t, z) \in \Omega, \varepsilon(t, z, \tau) \defeq \varphi(t + \tau, t)z - \Phi(t + \tau, t)z = o(\tau) $ per $ \tau \to 0 $
+\end{enumerate}
+
+Si osserva che $ \varepsilon(t, z, \tau) \defeq \varphi(t + \tau, t)z - [z + \tau F(t, z, \tau)] $ misura per quanto la soluzione esatta non \`e una soluzione del metodo.
+
+\begin{proof}
+\noindent
+\begin{itemize}
+\item[$ 1. \implies 2. $] $ \lim\limits_{\tau \to 0} F(t, z, \tau) = \lim\limits_{\tau \to 0} \frac{\Phi (t + \tau, t)z - z}{\tau} = \lim\limits_{\tau \to 0^{+}} \Phi(t + \tau, t)z \stackrel{1.}{=} f(t, z) $
+\item[$ 2. \implies 3. $] $ \varepsilon(t, \tau, z) = \varphi(t + \tau, t) z - \Phi(t + \tau, t) z = z + \int\limits_{t}^{t + \tau} f(s, \varphi(t + s)) \, \mathrm{d}s - {[z + \tau F(t, z, \tau)]} = \int\limits_{t}^{t + \tau} f(s, \varphi(t + s)) - F(t, z, \tau) \, \mathrm{d}s = {\underbrace{\int\limits_{t}^{t + \tau} \underbrace{f(s + t, \underbrace{\varphi(t + s, t)z}_{= z + o(1) \text{ per } \tau \to 0}) - f(t, z)}_{= o(1)} \, \mathrm{d}s}_{= o(\tau)}} + {\underbrace{\int\limits_{t}^{t + \tau} \underbrace{f(t, z) - F(t, z, \tau)}_{= o(1) \text{ per } \tau \to 0} \, \mathrm{d}s}_{= o(\tau)}} $
+\item[$ 3. \implies 1. $] $ \lim\limits_{\tau \to 0} \frac{\mathrm{d}}{\mathrm{d} \tau} \Phi(t + \tau, t)z = \lim\limits_{\tau \to 0} \frac{\Phi(t + \tau, t)z - z}{\tau} = \lim\limits_{\tau \to 0} \frac{\varphi(t + \tau, t)z - z}{\tau} - \frac{\overbrace{\varepsilon(t , z, \tau)}^{o(\tau)}}{\tau} = f(t, z) + 0 $
+\end{itemize}
+\end{proof}
+
+\subsection{Consistenza del metodo di Eulero esplicito}
+Dato $ (t, z) \in \Omega $, si scrive 
+
+\[ u(t + \tau) = \Phi(t + \tau, t) z \]
+
+Si ha, per $ \tau \to 0 $, che $ \varepsilon_{EE} (t, z) = u(t + \tau) - [u(t) + \tau f(t, u(t))] = u(t + \tau) - u(t) - \tau u'(t) = \int\limits_{t}^{t + \tau} u'(s) \, \mathrm{d}s - \tau u'(t) = \underbrace{\int\limits_{t}^{t + \tau} \underbrace{u'(s) - u'(t)}_{= o(1) \text{ se $ u $ continua in } t} \, \mathrm{d}s}_{O(\vert s - t \vert) = O(\tau^{2})} = o(\tau) $
+
+\section{Un metodo di ordine superiore}
+\subsection{Un ordine di pi\`u per $ \varepsilon $. L'errore di consistenza}
+In \S 8.2 si \`e osservato che l'errore di consistenza di Eulero esplicito \`e di $ O(\tau^{2}) $ per $ \tau \to  0$ se la soluzione di $ u'= f(\cdot u) $ \`e due volte derivabile con continuit\`a . Si cerca di derivare un metodo per cui l'errore di consistenza pu\`o soddisfare $ O(\tau^{3}) $ per $ \tau \to 0 $. A questo scopo si osserva che
+
+$ u(t + h) - u(t - h) = u(t) + h u'(t) + \frac{1}{2} h^{2} u''(t) + \frac{1}{6} h^{3} u^{(3)} (t^{+}) - [u(t) - h u'(t) + \frac{1}{2} h^{2} u''(t) - \frac{1}{6} h^{3} u^{(3)} (t^{-})] = 2h u'(t) + O(t^{3}) $ 
+
+ovvero
+
+\begin{equation}
+u'(t) = \frac{u(t + h) - u(t - h)}{2h} + O(h^{3})
+\end{equation} 
+
+Sia $ t_{0} < t_{1} < \dotsb < t_{N} = T $ uan griglia e $ \tau_{n} = t_{n + 1} - t_{n} $, con $ n = 0, \dotsc, N - 1 $. Ponendo $ \tau_{n} = \frac{h}{2} $ conduce a $ \frac{u(t_{n + 1}) - u(t_{n})}{\tau_{n}} = u' \left( t_{n} + \frac{\tau_{n}}{2} \right) + O(\tau_{n}^{2}) = f(t_{n} + \frac{\tau_{n}}{2}, u \left( t_{n} + \frac{\tau_{n}}{2} \right)  + O(\tau_{n}^{2}) $. Il problema \`e che $ t_{n} + \frac{\tau_{n}}{2} $ non \`e un punto della griglia, quindi approssimando $ u \left( t_{n} + \frac{\tau_{n}}{2} \right) $ con il metodo di Eulero esplicito con passo $ \frac{\tau_{n}}{2} $ si ottiene 
+
+\[ u \left( t_{n} + \frac{\tau_{n}}{2} \right) = u(t_{n}) + \frac{\tau_{n}}{2} f(t_{n}, u(t_{n})) + O(\tau_{n}^{2}) \]
+
+e, supponendo che $ f = f(t, z) $ \`e Lipschitz rispetto a $ z $, si ottiene
+
+\[ f \left( t_{n} + \frac{\tau_{n}}{2}, u \left(t_{n} + \frac{\tau_{n}}{2} \right) \right) = f(t_{n} + \frac{\tau_{n}}{2}, u(t_{n} + \frac{\tau_{n}}{2} f(t_{n}, u(t_{n}) ) + O(\tau_{n}^{2})  \]
+
+Riassumendo, si ha sotto le ipotesi fatte, per $ \tau \to 0 $
+
+\[ \frac{u(t_{n + 1}) - u(t_{n})}{2 \tau_{n}} = f \left( t_{n} + \frac{\tau_{n}}{2}, u(t_{n}) + \frac{\tau_{n}}{2} f(t_{n}, u(t_{n}) \right) + O(\tau_{n}^{2} \]
+
+Questo suggerisce il cosiddetto metodo di Eulero modificato
+
+\[
+\begin{cases}
+U_{0} = v \\
+U_{n + 1} = U_{n} + \tau f \left( t_{n} + \frac{\tau_{n}}{2}, U_{n} + \frac{\tau_{n}}{2} f(t_{n}, U_{n}) \right)	 & n = 0, \dotsc, N - 1
+\end{cases}
+\]
+
+Si noti che qui la funzione $ f $ viene valutato due volte per passo. 
+
+\subsection{Ordine sperimentale dell'errore di Eulero modificato}
+In un problema dove $ f $ \`e Lipschitz rispetto a  $ z $ e $ u $ tre volte derivabile con continuit\`a si osserva effettivamente che nel tempo finale $ T $
+
+\[ \vert U_{n} - u(T) \vert \approx \tau^{2} = \frac{1}{N^{2}} \]
+
+\begin{center}
+\begin{tabular}{c|c|c}
+	Metodo & Costo & Errore \\
+\hline
+	E. E. & $ N $ & $ \approx \frac{1}{N} $ \\
+\hline
+	E. M. & $ 2N $ & $ \approx \frac{1}{4N^{2}} $ \\
+\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Velocit\`a di convergenza e dipendenza dalla regolarit\`a}
+\subsection{Eulero esplicito vs. Eulero modificato}
+
+Nella seguente tabella viene mostrato il costo in termini di valutazion edella $ f $ dei metodi di Eulero esplicito ed Eulero modificato per raggiungere un dato livello di errore relativo (\S 9.3)
+
+\begin{tabular}{c|c|c|c|c}
+	Tolleranza & $ 10\% $ & $ 1\% $ & $ 0.1\% $ & $ 0.01\% $ \\
+\hline
+	E.E. & 8 & 64 & 512 & 8192 \\
+\hline
+	E.M. & 2 & 8 & 32 & 128 \\
+\hline
+	Raddoppio & 4 & 8 & 16 & 64 \\
+\end{tabular}
+
+Questo viene illustrato anche nel bilancio qualit\`a-costo in scala $ \log-\log $
+
+\begin{center}
+\begin{figure}[H]
+\begin{tikzpicture}
+	\draw[->] (-1, 0) -- (5, 0) node[right] {$ \log N $};
+	\draw[->] (0, -5) -- (0, 1) node[above] {$ \log \mathop{err} $};
+	\filldraw (1, 0) circle (1pt) node[above] {$ 10^{1} $};
+	\filldraw (2, 0) circle (1pt) node[above] {$ 10^{2} $};
+	\filldraw (3, 0) circle (1pt) node[above] {$ 10^{3} $};
+	\filldraw (4, 0) circle (1pt) node[above] {$ 10^{4} $};
+	\filldraw (0, -1) circle (1pt) node[left] {$ 10^{-1} $};
+	\filldraw (0, -2) circle (1pt) node[left] {$ 10^{-2} $};
+	\filldraw (0, -3) circle (1pt) node[left] {$ 10^{-3} $};
+	\filldraw (0, -4) circle (1pt) node[left] {$ 10^{-4} $};
+	\draw (1, 0) -- (4.5, -3.5);
+	\draw (1, 0) -- (3.25, -4.5);
+\end{tikzpicture}
+
+\caption{$ \mathop{err} \approx C N^{-p} \iff \log \mathop{err} \approx \log C - p \log N $}
+\end{figure}
+\end{center}
+
+\subsection{Impatto della regolarit\`a}
+Si consideri il problema
+
+\[
+\begin{cases}
+u' = t^{p} u & \text{ in } (0, 1) \\
+u(1) = \exp \left( \frac{1}{1 + p} \right) 
+\end{cases}
+\]
+
+con $ p > -1 $. La soluzione \`e $ u(t) = \exp \left( \frac{t^{p + 1}}{p + 1} \right) $ per $ t \ge 0 $. Posto $ f(t, z) = t^{p} z $, con $ z \in \mathbb{R} $ e $ t > 0 $ si ha il seguente grafico:
+
+\begin{center}
+\begin{figure}[H]
+\begin{tikzpicture}
+	\draw[->] (-1, 0) -- (2,0) node[right] {$ z $};
+	\draw[->] (0, -1) -- (3,0) node[right] {$ f(t, z) $};
+	\filldraw (1, 0) circle (1pt) node[below] {$ 1 $};
+	\filldraw (0, 0) circle (1pt) node[below left] {$ 0 $};
+
+    \draw[domain=0:1, smooth] plot (\z, {2*\z^0.3}) node[right] {$ p \in (0, 1) $};
+    \draw[domain=0:1, smooth] plot (\z, {2*\z^(-0.7)}) node[right] {$ p \in (-1, 0) $};
+    \draw[domain=0:1, smooth] plot (\z, {2*\z}) node[right] {$ p = 1 $};
+    \draw[domain=0:1, smooth] plot (\z, {2*\z^20}) node[right] {$ p \gg 1 $};
+\end{tikzpicture}
+
+\caption{Grafici di $ f(2, z) $ con $ p = 1 $, $ p = 0.3 $, $ p = 20 $ e $ p = -0.7 $}
+\end{figure}
+\end{center}
+
+Si osserva numericamente che:
+\begin{enumerate}
+\item con l'aumentare di $ p \gg 1 $ l'ordine del metodo si osserva pi\`u tardi, cio\`e per $ N $ grandi;
+\item per $ p \in (0, 1) $ il metodo di Eulero modificato mostra solo un ordine di convergenza di $ p + 1 < 2 $. Una "spiegazione" \`e data dalla barriera dell'errore di consistenza dell'ultimo passo $ \approx \tau^{3} \tau^{p - 2} = \tau^{p + 1} $;
+\item per $ p \in (-1, 0) $ entrambi i metodi mostrano solo l'errore di convergenza $ 1 + p < 1 $. Una "spiegazione" \`e data da $ \tau^{2} \tau^{p - 1} = \tau^{p + 1} $.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+										MANCANO LE LEZIONI 11 E 12!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
