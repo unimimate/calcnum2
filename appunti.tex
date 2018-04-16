@@ -7,8 +7,6 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{gensymb}
-\usepackage{bbm}
-\usepackage{marvosym}
 \usepackage{xcolor}
 \usepackage{blindtext}
 \usepackage{listings}
@@ -25,7 +23,7 @@
 \usepackage{url}
 \usepackage{array}
 \usepackage{tikz}
-% \usepackage[a4paper]{geometry}
+\usepackage[a4paper]{geometry}
 
 \usetikzlibrary{arrows, automata, backgrounds, calendar, chains, matrix, mindmap, patterns, petri, shadows, shapes.geometric, shapes.misc, spy, trees}
 
@@ -40,13 +38,9 @@
 \providecommand{\defeq}{\vcentcolon=}
 \providecommand{\eqdef}{=\vcentcolon}
 \providecommand{\compl}[1]{\prescript{c}{}{#1}}
-\providecommand{\norm}[1]{\Vert {#1} \Vert\,}
-\providecommand{\card}[1]{\vert {#1} \vert\,}
-\providecommand{\ristrettaA}[1]{_{\vert_{#1}}}
-
+\providecommand{\refsec}[1]{\S \ref{section:#1}}
 \theoremstyle{plain}
 \newtheorem{thm}{Teorema}[]
-\renewcommand{\thesection}{\arabic{section}}
 
 \theoremstyle{definition}
 \newtheorem{defn}[]{Definizione}
@@ -58,9 +52,12 @@
 \newtheorem{es}[]{Esempio}
 \newtheorem{ex}[]{Esercizio}
 
+\renewcommand{\thesection}{\arabic{section}}
+
 \maketitle
+
 \chapter{Introduzione}
-\section{Discretizzazione di un problema ai valori iniziali}
+\section{Discretizzazione di un problema ai valori iniziali}	\label{section:1}
 \subsection{Problema ai valori iniziali}
 Dati:
 \begin{itemize}
@@ -101,7 +98,22 @@ dove:
 \item $ \tau \defeq \frac{T - t_{0}}{N} $ \`e il passo temporale.
 \end{itemize}
 
-% TODO: disegno
+\begin{center}
+\begin{figure}[H]
+\begin{tikzpicture}
+	\draw[->] (-4,0) -- (4,0) node[right] {$ t $};
+	\filldraw (-3,0) circle (1pt) node[below] {$ t_{1} $};
+	\filldraw (-2,0) circle (1pt) node[below] {$ t_{2} $};
+	\filldraw (-1,0) circle (1pt) node[below] {$ t_{3} $};
+	\fill (0,0) node[below] {$ \ldots $};
+	\filldraw (1,0) circle (1pt) node[below] {$ t_{N - 2} $};;
+	\filldraw (2,0) circle (1pt) node[below] {$ t_{N - 1} $};
+	\filldraw (3,0) circle (1pt) node[below] {$ t_{N} $};
+\end{tikzpicture}
+
+\caption{Esempio di discretizzazione dell'asse delle $ t $. $ \tau $ \`e la distanza tra i vari nodi ed \`e costante.}
+\end{figure}
+\end{center}
 
 \subsection{Sostituzione dell'operatore differenziale}
 Data ad esempio $ t \in U_{N} $, neanche $ f \left( t, u(t) \right) = u'(t) $ \`e verificabile al computer poich\'e in generale
@@ -243,7 +255,7 @@ poich\'e $ -i(u + iv) = -i u + v $. Questo corrisponde all'esempio $ 1. $ in $ \
 \section{Problemi ai valori iniziali}
 Le applicazioni e le soluzioni generali degli esempi nel paragrafo precedente suggeriscono di porre ulteriori condizioni per individuare una soluzione di un'equazione differenziale ordinaria.
 
-\subsection{Problema ai valori iniziali}
+\subsection{Problema ai valori iniziali}	\label{section:3.1}
 Siano $ d, k \in \mathbb{N} $, $ \Omega \subseteq \mathbb{R} \times \mathbb{R}^{kd} $ dominio aperto e connesso. Sia $ f: \Omega \to \mathbb{R}^{d} $, $ (t_{0}, v_{0}, \dotsc, v_{k-1}) \in \Omega $, $ t_{0} < T $ e $ I = [t_{0}, T] $.
 
 Una funzione $ u: I \to \mathbb{R}^{d} $ si dice soluzione di $ u^{(k)} = f(\cdot, u^{(0)}, \dotsc, u^{(k-1)}) $ con $ u^{(i)} (t_{0}) = v_{i} $ con $ i = 0, \dotsc, k - 1 $ se:
@@ -274,7 +286,7 @@ sono soluzioni del problema considerato. Si noti inoltre che
 \[ \lim\limits_{z \to 0^{+}} f'(z) = \lim\limits_{z \to 0^{+}} 2 z^{-\frac{1}{3}} = \infty \]
 
 \subsection{Un criterio di unicit\`a (per $ k = 1 $)}
-Nelle ipotesi di \S 3.1 si supponga che $ k = 1 $. Se $ [f(t, z_{1}) - f(t, z_{2})] \cdot [z_{1} - z_{2}] \le l \vert z_{1} - z_{2} \vert^{2}, \forall\ (t, z_{1}), (t, z_{2}) \in \Omega $, dove
+Nelle ipotesi di \refsec{3.1} si supponga che $ k = 1 $. Se $ [f(t, z_{1}) - f(t, z_{2})] \cdot [z_{1} - z_{2}] \le l \vert z_{1} - z_{2} \vert^{2}, \forall\ (t, z_{1}), (t, z_{2}) \in \Omega $, dove
 \begin{itemize}
 \item $ \cdot $ \`e il prodotto scalare in $ \mathbb{R}^{d} $
 \item $ l \in \mathbb{R} $
@@ -315,12 +327,12 @@ Un metodo numerico \`e una "mappa" del tipo
 (problema continuo, parametro) $ \mapsto $ problema discreto
 \end{center}
 
-Ad esempio in \S 1 abbiamo associato al problema continuo $ \ref{eq:PVI} $ e al parametro $ N \in \mathbb{N} $ il problema discreto $ (\ref{eq:EE}) $ con $ t_{n} = t_{0} + n \tau $ e $ \tau = \frac{T - t_{0}}{N} $. Si noti che i $ t_{i} $ sono tutti equidistanti. Se non lo fossero, come in metodi che verranno affrontati successivamente, al posto di un parametro si dovrebbe inserire un vettore di punti che formano la griglia dei tempi. Anche questa soluzione non \`e generale poich\'e alcuni metodi prevedono un ordine preciso di uso dei tempi $ t_{i} $. Per ora saranno considererati solo metodi con griglia equidistante.
+Ad esempio in \refsec{1} abbiamo associato al problema continuo $ \ref{eq:PVI} $ e al parametro $ N \in \mathbb{N} $ il problema discreto $ (\ref{eq:EE}) $ con $ t_{n} = t_{0} + n \tau $ e $ \tau = \frac{T - t_{0}}{N} $. Si noti che i $ t_{i} $ sono tutti equidistanti. Se non lo fossero, come in metodi che verranno affrontati successivamente, al posto di un parametro si dovrebbe inserire un vettore di punti che formano la griglia dei tempi. Anche questa soluzione non \`e generale poich\'e alcuni metodi prevedono un ordine preciso di uso dei tempi $ t_{i} $. Per ora saranno considererati solo metodi con griglia equidistante.
 
 I metodi "numerici" sono un modello dei metodi "computazionali".
 
 \subsection{Convergenza}
-Per valutare la bont\`a  di un metodo numerico \`e interessante bilanciare costo e qualit\`a: nel caso di \S 1, ad esempio, sarebbe il bilanciamento di $ N $, dato che il numero dei passi \`e uguale al numero di valutazioni della $ f $ e quindi \`e approssimabile al costo computazionale, oppure  $ \max\limits_{n = 0, \dotsc, N} \vert u(t_{n})  - U_{n} \vert $. In particolare ci interessano le stime del tipo $ \max\limits_{n = 0, \dotsc, N} \vert u(t_{n})  - U_{n} \vert \le C N^{-p} $, con $ p > 0 $, che qualifica anche la velocit\`a di convergenza.
+Per valutare la bont\`a  di un metodo numerico \`e interessante bilanciare costo e qualit\`a: nel caso di \refsec{1}, ad esempio, sarebbe il bilanciamento di $ N $, dato che il numero dei passi \`e uguale al numero di valutazioni della $ f $ e quindi \`e approssimabile al costo computazionale, oppure  $ \max\limits_{n = 0, \dotsc, N} \vert u(t_{n})  - U_{n} \vert $. In particolare ci interessano le stime del tipo $ \max\limits_{n = 0, \dotsc, N} \vert u(t_{n})  - U_{n} \vert \le C N^{-p} $, con $ p > 0 $, che qualifica anche la velocit\`a di convergenza.
 
 \subsection{Buona posizione e buon posizionamento}
 I problemi continui e discreti dovrebbero essere ben posti, cio\`e, secondo Hadamard:
@@ -342,15 +354,139 @@ Poich\'e il problema discreto discende dal problema continuo e si spera che lo "
 
 In altre parole, prima di comprendere il punto 3 bisogna comprendere il punto 2.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Buon condizionamento grazie alla CLU}
 
-										MANCANO LE LEZIONI 5 E 6!
+\subsection{Stabilit\`a}
+Siano $ t_{0}, T \in \mathbb{R} $ come sempre con $ t_{0} < T $, $ f: [t_{0}, T] \times \mathbb{R}^{d} \to \mathbb{R}^{d} : \forall\ t \in [t_{0}, T], z_{1}, z_{2} \in \mathbb{R}^{d} $ si ha:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\[
+[ f(t, z_{1}) - f(t, z_{2}) ] \cdot [z_{1} - z_{2}] \leq l \cdot \Vert z_{1} - z_{2} \Vert^{2}
+\]
+
+per qualche $ l \in \mathbb{R} $. Siano poi $ v \in \mathbb{R}^{d} $ e $ u, \tilde{u} \in \mathcal{C}^{1}([t_{0}, T], \mathbb{R}^{d}) $ soluzioni rispettivamente delle due equazioni differenziali:
+
+\[
+\begin{cases}
+u' = f(\cdot, u) \\
+u(t_{0}) = v
+\end{cases}
+\]
+
+\[\begin{cases}
+\tilde{u}' = f(\cdot, u) + \delta \\
+\tilde{u}(t_{0}) = v + \rho = \tilde{v}
+\end{cases}
+\]
+
+nell'intervallo $ [t_{0}, T] $ dove $ \delta: [t_{0}, T] \to \mathbb{R}^{d} $ e $ \rho \in \mathbb{R}^{d} $. Allora:
+ 
+\[
+\vert u(t) - \tilde{u}(t) \vert \leq e^{l(t - t_{0})} \vert \rho \vert + \int\limits_{t_{0}}^{t} e^{l(t - s)} \vert \delta(s) \vert \, \mathrm{d}s \]
+
+Se $ l < 0 $ si ha una decrescita esponenziale, se $ l > 0 $ una crescita. Si potrebbe raffinare $ l $ e farla dipendere da $ t $.
+
+\begin{proof}
+La presenza di $ \delta $ suggerisce di considerare $ \Vert u - \tilde{u} \Vert $ al posto di $ \Vert u -  \tilde{u} \Vert^{2} $. Per evitare problemi di derivabilit\`a in $ 0 $, si consideri dapprima $ \sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}} $ e poi il limite $ \varepsilon \to 0 $.
+
+Seguendo 1.3.3 si osserva:	% TODO: cosa sarebbe 1.3.3?
+
+\begin{dmath*}
+{ \frac{\mathrm{d}}{\mathrm{d} t} [\sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}}] } = { \frac{1}{2} \frac{2 \cdot (u - \tilde{u}) \cdot (u' - \tilde{u}')}{\sqrt{\varepsilon^{2} + \Vert u - \tilde{u}\Vert^{2}}} } = { \frac{(u - \tilde{u}) \cdot (f(\cdot, u) - f(\cdot, \tilde{u}) - \delta)}{\sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}}} } \leq \\ { l \cdot \frac{\Vert u - \tilde{u} \Vert^{2}}{\sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}}} + \vert \delta \vert \frac{\Vert u - \tilde{u} \Vert^{2}}{\underbrace{\sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}}}_{\leq 1}} } \leq { l \cdot \frac{\Vert u - \tilde{u} \Vert^{2}}{\sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}}} + \vert \delta \vert }
+\end{dmath*}
+ 
+Come prima si consideri la funzione:
+
+\[ d_{\varepsilon}(t) \defeq e^{-l(t - t_{0})} \sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}} \]
+
+e si osserva che: 
+ 
+\begin{dmath*}
+{ d_{\varepsilon}'(t) } \leq { - l e^{-l(t - t_{0})} \sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}} + e^{-l(t - t_{0})} \left[ l \cdot \frac{\Vert u - \tilde{u}\Vert^{2}}{\sqrt{\varepsilon^{2} + \Vert u - \tilde{u} \Vert^{2}}} + \vert \delta \vert \right] } = { e^{-l(t - t_{0})} \left[ \vert \delta \vert + l \frac{-\varepsilon^{2} - [u - \tilde{u}] + [u - \tilde{u}]^{2}}{\sqrt{\varepsilon^{2} + \vert u - \tilde{u} \vert^{2}}} \right] } \leq { e^{-l(t - t_{0})} \left[ \vert \delta \vert + \vert l \vert \cdot \varepsilon \frac{\varepsilon}{\sqrt{\varepsilon^{2} + \vert u - \tilde{u} \vert^{2}}} \right] } \leq { e^{-l(t - t_{0})} [ \vert \delta \vert + \varepsilon \vert l \vert ] }
+\end{dmath*}
+
+Di conseguenza:
+
+\[
+d_{\varepsilon} (t) = d_{\varepsilon}(t_{0}) + \int\limits_{t_{0}}^{t} d_{\varepsilon}'(s)\, \mathrm{d}s = d_\varepsilon(t_{0}) + \int\limits_{t_{0}}^{t} e^{-l(s - t_{0})} \vert \delta(s) \vert\, \mathrm{d}s + \varepsilon \cdot \vert l \vert \cdot \int\limits_{t_{0}}^{t} e^{-l(s - t_{0})}\,\mathrm{d}s
+\]
+ 
+E considerando $ \varepsilon \to 0 $ si ottiene:
+
+\[ d_{0}(t) \leq d_{0}(t_{0})+ \int\limits_{t_{0}}^{t} e^{-l(s - t_{0})} \cdot \vert \delta(s) \vert\, \mathrm{d}s + 0 \] 
+
+ovvero che:
+
+\[ e^{-l(t - t_{0})} \cdot \Vert u - \tilde{u} \Vert \leq \vert \rho \vert + \int\limits_{t_{0}}^{t} e^{-l(s - t_{0})} \cdot \vert \delta(s) \vert\, \mathrm{d}s \]
+
+da cui la tesi moltiplicando per $ e^{l(t - t_{0})} $.
+\end{proof}
+
+\section{Residuo e consistenza}
+\subsection{Poligono di Eulero}
+
+La soluzione discreta del metodo di Eulero esplicito fornisce valori solo sulla griglia generale $ t_{n} = t_{n-1} + \tau_{n} $ con $ n = 0, 1, \dotsc, N - 1 $ e $ \tau = 0, \dotsc, T_{N - 1} > 0 $ tali che $ \sum\limits_{k = 0}^{N - 1} \tau_{n} = T - t_{0} $. Quindi non pu\`o essere vista come perturbazione di $ u $.
+
+Per rimediare si passa al poligono di Eulero: una funzione $ U: [t_{0}, T] \to \mathbb{R}^{d} $ definita da
+
+\begin{dmath*}
+U(t) = \frac{t - t_{n - 1}}{\tau_{n}} U_n + \frac{t_{n} - t}{\tau_{n}} U_{n - 1} = U_{n - 1} + (t - t_{n - 1}) \frac{U_{n} - U_{n-1}}{\tau_{n}} = U_{n - 1} + (t - t_{n - 1}) f(t_{n - 1}, U_{n - 1})
+\end{dmath*}
+
+\begin{center}
+\begin{figure}[H]
+\begin{tikzpicture}
+      \draw[->] (-1, 0) -- (7,0) node[right] {$ t $};
+      \draw[->] (0, -1) -- (0, 3.5) node[above] {$ U(t) $};
+      \draw (0, 0.8) -- (2, 2) -- (4, 1.2) -- (6, 2.8) -- (6.5, 2.6);
+
+      \node [below left] at (0, 0) {$ t_{0} $};
+      \draw[dashed] (2, 2) -- (2, 0) node[below] {$ t_{1} $};
+      \draw[dashed] (4, 1.2) -- (4, 0) node[below] {$ t_{2} $};
+      \draw[dashed] (6, 2.8) -- (6, 0) node[below] {$ t_{3} $};
+      
+      \draw [fill] (2,2) circle (1pt) node[above] {$ f(t_{0}, U_{0}) $};
+      \draw [fill] (4,1.2) circle (1pt) node[below] {$ f(t_{1}, U_{1}) $};
+      \draw [fill] (6,2.8) circle (1pt) node[above] {$ f(t_{2}, U_{2}) $};
+\end{tikzpicture}
+
+\caption{Esempio di poligono di Eulero}
+\end{figure}
+\end{center}
+
+\subsection{Residuo del poligono di Eulero}
+Dato il poligono di Eulero, si definisce residuo la quantit\`a:
+
+\[ R(t) \defeq u'(t) - f(t, U(t)) \]
+
+per $ t \in (t_{n - 1}, t_{n}) $ e si osserva che $ u'(t) = f(t, U(t)) + R(t) $, di conseguenza nelle ipotesi del teorema precedente si ha:
+
+\[ \Vert u(t) - U(t) \Vert \leq \int\limits_{t_{0}}^{t} e^{l(t - s)} \vert R(s) \vert \, \mathrm{d}s \] 
+
+dove:
+
+\[
+\int\limits_{t_{n}}^{t_{n + 1}} e^{l(t - s)} \vert R(s) \vert \, \mathrm{d}s = \int\limits_{t_{n}}^{t_{n + 1}} e^{l(t - s)} [f(t_{n}, U_{n}) - f(s, U(s))] \, \mathrm{d}s
+\]
+
+\`e calcolabile (modulo integrazione numerica) pu\`o essere associato al passo $ n $.	% TODO: frase non chiara
+
+\subsection{Consistenza del passo}
+Una controparte del residuo pu\`o essere:
+
+\[
+\frac{U(t_{n - 1}) - u(t_{n})}{\tau_{n}} - f(t_{n}, U(t_{n})) = \frac{\varepsilon(t_{n}, U(t_{n}),\tau_{n})}{\tau_{n}} \eqdef \frac{\varepsilon_{n}}{\tau_{n}}
+\]
+
+Infatti esso misura per quanto la soluzione esatta non soddisfa la soluzione discreta mentre il residuo misura per quanto l'approssimazione $ U $ non soddisfa l'equazione continua supponendo che il problema discreto sia ben condizionato oppure vale una controparte di $ 1.5.1 $, ci si pu\`o aspettare una stima dell'errore in termini di $ \frac{\varepsilon_{n}}{\tau_{n}} $, con $ n = 0, \dotsc, N - 1$. Si noti che grazie a $ u' = f(t, u) $ si ha:	% TODO: cosa sarebbe 1.5.1?
+
+\[ \frac{\varepsilon(t, U(t), \tau)}{\tau} = \frac{U(t + \tau) - U(t)}{\tau_{n}} - f(t, U(t)) \to 0 \]
+
+per $ \tau \to 0 $ poich\'e u \`e derivabile in $ \tau $.
 
 \chapter{Consistenza e regolarit\`a}
+\setcounter{section}{6}
 \section{Preliminari}
-\subsection{Evoluzione}
+\subsection{Evoluzione}	\label{section:7.1}
 Sia $ \Omega \subseteq \mathbb{R} \times \mathbb{R}^{d} $, $ f: \Omega \to \mathbb{R}^{d} $ tale che $ \forall\ (t_{0}, v) \in \Omega $ il problema
 
 \begin{equation}	\label{eq:probevol}
@@ -383,7 +519,7 @@ Siano $ \Omega, f $ e $ \varphi $ come nel capitolo precedente. Un metodo ad un 
 
 \[ \Phi (t_{1}, t_{2}) v = v + (t_{2} - t_{1}) F(t_{1}, v, t_{2} - t_{1}) \]
 
-una soluzione approssimata di $ (\ref{eq:probevol}) $ in \S 7.1 sulla griglia
+una soluzione approssimata di $ (\ref{eq:probevol}) $ in \refsec{7.1} sulla griglia
 
 \[ t_{0} < t_{1} < \dotsb < t_{N} \]
 
@@ -442,7 +578,7 @@ Sia $ f: [0, \tau^{\ast}] \to \mathbb{R}^{d} $ e $ b: [0, \tau^{\ast}] \to \math
 \end{es}
 
 \section{Consistenza di metodi a un passo}
-\subsection{Definizione di consistenza}
+\subsection{Definizione di consistenza}	\label{section:8.1}
 
 Un metodo ad un passo con $ \Phi $ e $ F $ si dice consistente per $ u' = f(\cdot, u) $ se una delle seguenti condizioni equivalenti \`e soddisfatta:
 
@@ -463,7 +599,7 @@ Si osserva che $ \varepsilon(t, z, \tau) \defeq \varphi(t + \tau, t)z - [z + \ta
 \end{itemize}
 \end{proof}
 
-\subsection{Consistenza del metodo di Eulero esplicito}
+\subsection{Consistenza del metodo di Eulero esplicito}	\label{section:8.2}
 Dato $ (t, z) \in \Omega $, si scrive 
 
 \[ u(t + \tau) = \Phi(t + \tau, t) z \]
@@ -472,7 +608,7 @@ Si ha, per $ \tau \to 0 $, che $ \varepsilon_{EE} (t, z) = u(t + \tau) - [u(t) +
 
 \section{Un metodo di ordine superiore}
 \subsection{Un ordine di pi\`u per $ \varepsilon $. L'errore di consistenza}
-In \S 8.2 si \`e osservato che l'errore di consistenza di Eulero esplicito \`e di $ O(\tau^{2}) $ per $ \tau \to  0$ se la soluzione di $ u'= f(\cdot u) $ \`e due volte derivabile con continuit\`a . Si cerca di derivare un metodo per cui l'errore di consistenza pu\`o soddisfare $ O(\tau^{3}) $ per $ \tau \to 0 $. A questo scopo si osserva che
+In \refsec{8.2} si \`e osservato che l'errore di consistenza di Eulero esplicito \`e di $ O(\tau^{2}) $ per $ \tau \to  0$ se la soluzione di $ u'= f(\cdot u) $ \`e due volte derivabile con continuit\`a . Si cerca di derivare un metodo per cui l'errore di consistenza pu\`o soddisfare $ O(\tau^{3}) $ per $ \tau \to 0 $. A questo scopo si osserva che
 
 $ u(t + h) - u(t - h) = u(t) + h u'(t) + \frac{1}{2} h^{2} u''(t) + \frac{1}{6} h^{3} u^{(3)} (t^{+}) - [u(t) - h u'(t) + \frac{1}{2} h^{2} u''(t) - \frac{1}{6} h^{3} u^{(3)} (t^{-})] = 2h u'(t) + O(t^{3}) $ 
 
@@ -524,7 +660,7 @@ In un problema dove $ f $ \`e Lipschitz rispetto a  $ z $ e $ u $ tre volte deri
 \section{Velocit\`a di convergenza e dipendenza dalla regolarit\`a}
 \subsection{Eulero esplicito vs. Eulero modificato}
 
-Nella seguente tabella viene mostrato il costo in termini di valutazion edella $ f $ dei metodi di Eulero esplicito ed Eulero modificato per raggiungere un dato livello di errore relativo (\S 9.3)
+Nella seguente tabella viene mostrato il costo in termini di valutazion edella $ f $ dei metodi di Eulero esplicito ed Eulero modificato per raggiungere un dato livello di errore relativo (\refsec{9.3})	% TODO: NON ESISTE 9.3!
 
 \begin{tabular}{c|c|c|c|c}
 	Tolleranza & $ 10\% $ & $ 1\% $ & $ 0.1\% $ & $ 0.01\% $ \\
@@ -686,10 +822,250 @@ $ 1 $ & $ 1 $ \\
 Un metodo Runge-Kutta definito da $ (A, \underline{b}, \underline{c}) $ \`e consistente $ \forall\ f $ continua se e solo se $ \sum\limits_{i = 1}^{s} b_{i} = 1 $.
 
 \begin{proof}
-Essendo un metodo a un passo si pu\`o usare \S 8.1 (2). Nel caso di $ \tau = 0 $, $ (\ref{eq:ki}) $ si riduce a
+Essendo un metodo a un passo si pu\`o usare \refsec{8.1} (2). Nel caso di $ \tau = 0 $, $ (\ref{eq:ki}) $ si riduce a
 
 \[ k_{i} = f \left(t + c_{i} 0, z + 0 \sum\limits_{j = 1}^{s} a_{ij} k_{j} \right) = f(t, z) \]
 
-$ \forall\ i = 1, \dotsc, s $ da cui $ F(t, z, 0) = \sum\limits_{i = 1}^{s} b_{i} k_{i} = \left( \sum\limits_{i = 1}^{s} b_{i} \right) f(t, z) $. Se il metodo \'e consistente allora $ F(t, z, 0) = f(t, z) $ e $ f(t, z) \ne 0 $ implica $ \sum\limits_{i = 1}^{s} b_{i} = 1 $. Viceversa, se $ \sum\limits_{i = 1}^{s} b_{i} = 1 $ e se $ k_{i} = k_{i} (t, z) $ sono continui in $ (t, z) $, allora vale \S 8.1 (2)  e il metodo definito da $ (A, \underline{b}, \underline{c}) $ \`e consistente.
+$ \forall\ i = 1, \dotsc, s $ da cui $ F(t, z, 0) = \sum\limits_{i = 1}^{s} b_{i} k_{i} = \left( \sum\limits_{i = 1}^{s} b_{i} \right) f(t, z) $. Se il metodo \'e consistente allora $ F(t, z, 0) = f(t, z) $ e $ f(t, z) \ne 0 $ implica $ \sum\limits_{i = 1}^{s} b_{i} = 1 $. Viceversa, se $ \sum\limits_{i = 1}^{s} b_{i} = 1 $ e se $ k_{i} = k_{i} (t, z) $ sono continui in $ (t, z) $, allora vale \refsec{8.1} (2)  e il metodo definito da $ (A, \underline{b}, \underline{c}) $ \`e consistente.
 \end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+										MANCANO LE LEZIONI 14 E 15!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Passi adattivi - idea e potenziale}	\label{section:16}
+\subsection{Passi da seguire}
+
+Sia $ \Phi $ l'evoluzione di un metodo a un passo per
+
+\[ u' = f(\cdot, u) \]
+
+con $ f \in \mathcal{C}^{0} (\Omega, \mathbb{R}^{d}) $ e $ (t_{0}, \underline{v}) \in \Omega $. Si ponga $ u(t) = \varphi(t, t_{0}) v $ e
+
+\[
+\begin{cases}
+U_{0} \defeq v \\
+U_{n + 1} \defeq \Phi(t_{n + 1}, t_{n}) U_{n}
+\end{cases}
+\]
+
+dove $ t_{n + 1} = t_{n} + \tau_{n} $ e  $ t_{N} = T $ e i $ \tau_{i} $, con $ i = 0, \dotsc, N - 1 $, sono da scegliere.
+
+\begin{center}
+\begin{figure}[H]
+\begin{tikzpicture}
+	\draw[->] (-4, 0) -- (4, 0) node[right] {$ t $};
+	\filldraw (-3, 0) circle (1pt) node[above] {$ t_{0} $};
+	\draw (-2.5, 0) node[below] {$ \tau_{0} $};
+	\filldraw (-2, 0) circle (1pt) node[above] {$ t_{1} $};
+	\draw (-1.75, 0) node[below] {$ \tau_{1} $};
+	\filldraw (-1.5, 0) circle (1pt) node[above] {$ t_{2} $};
+	\draw (-0.25, 0) node[below] {$ \ldots $};
+	\filldraw (1, 0) circle (1pt) node[above] {$ t_{i} $};
+	\draw (1.75, 0) node[below] {$ \ldots $};
+	\filldraw (2, 0) circle (1pt) node[above] {$ t_{N-1} $};
+	\draw (2.5, 0) node[below] {$ \tau_{N-1} $};
+	\filldraw (3, 0) circle (1pt) node[above] {$ t_{N} = T $};
+\end{tikzpicture}
+
+\caption{Esempio di griglia adattiva}
+\end{figure}
+\end{center}
+
+Ci interessa una scelta "ottima", cio\`e del tipo: fissato $ N $, si minimizzi $ {\vert u(T) - U_{N} \vert} $, $ {\max\limits_{n = 1, \dotsc, N} \vert u(t_{n}) - U_{n} \vert } $ oppure $ { \sup\limits_{t \in [t_{0}, T]} \vert u(t) - U_{t} \vert } $, con $ U(t) $ da definire. In alternativa si pu\`o considerare fissato $ \varepsilon > 0 $ la minimizzazione di $ N $ con $ { \vert u(T) - U_{N} \vert \le \varepsilon } $.
+
+\subsection{Un problema di approssimazione del modello}
+Sia $ u \in \mathcal{C}^{0} ([t_{0}, T]) $ e si consideri
+
+\[ \inf\limits_{t_{1} < \dotsb < t_{N}} \Vert u - \overline{u} \Vert_{[t_{0}, T]} \]
+
+con $ \Vert u - s \Vert_{[t_{0}, T]} \defeq \sup\limits_{t \in [t_{0}, T]} \Vert u(t) - s(t) \Vert $ e $ \overline{u}_{\big\vert [t_{n}, t_{n + 1})} = u(t_{n}) $
+
+\begin{center}
+\begin{figure}[H]
+\begin{tikzpicture}
+	\draw[->] (-1, 0) -- (5, 0) node[right] {$ t $};
+	\draw[->] (0, -1) -- (0, 5) node[above] {$ u, \overline{u} $};
+	\draw[dotted] (0, 0.4) -- (0, 0) node[below left] {$ t_{0} $};
+	\draw[dotted] (0.5, 0.5) -- (0.5, 0) node[below] {$ t_{1} $};
+	\draw[dotted] (1.5, 1) -- (1.5, 0) node[below] {$ t_{2} $};
+	\draw[dotted] (1.9, 2) -- (1.9, 0) node[below] {$ t_{3} $};
+	\draw[dotted] (2.7, 3) -- (2.7, 0) node[below] {$ t_{4} $};
+	\draw[dotted] (3.2, 3.2) -- (3.2, 0) node[below] {$ t_{5} $};
+	\draw[dotted] (4, 4) -- (4, 0) node[below] {$ t_{6} $};
+	
+	\draw[black] plot [smooth] coordinates {(0, 0.4) (0.5, 0.5) (1, 0.9) (1.5, 1) (1.9, 2) (2.3, 2.2) (2.7, 3) (3.2, 3.2) (4, 4) (4.5, 4.15)} node[above right] {$ u $};
+	
+	\draw (0, 0.4) -- (0.5, 0.4);
+	\draw (0.5, 0.5) -- (1.5, 0.5);
+	\draw (1.5, 1) -- (1.9, 1);
+	\draw (1.9, 2) -- (2.7, 2);
+	\draw (2.7, 3) -- (3.2, 3);
+	\draw (3.2, 3.2) -- (4, 3.2);
+	\draw (4, 4) -- (4.5, 4) node[below right] {$ \overline{u} $};
+
+\end{tikzpicture}
+
+\caption{Esempio di grafico di $ u $ (funzione continua) e di $ \overline{u} $ (funzione a tratti)}
+\end{figure}
+\end{center}
+
+Se $ u \in \mathcal{C}^{1} ([t_{0}, T]) $ allora, con $ t \in [t_{0}, T] $
+
+\[ \vert u(t) - u(t_{n}) \le \left\vert \int\limits_{t_{n}}^{t} u' \right\vert \le \int\limits_{t_{n}}^{t} \vert u' \vert \]
+
+e quindi 
+
+\[ \sup\limits_{t \in [t_{n}, t_{n + 1}]} \vert u(t) - u(t_{n}) \vert \le \int\limits_{t_{n}}^{t_{n + 1}} \vert u' \vert \]
+
+
+Se $ \tau_{n} = \tau \defeq \frac{T - t_{0}}{N} $, ne segue che
+
+\[ \Vert u - \overline{u} \Vert_{[t_{0}, T]} \le \frac{T - t_{0}}{N} \sup\limits_{t \in [t_{0}, T]} \vert u' \vert \]
+
+ma se $ \tau_{n} $ tale che
+
+\[ \int\limits_{t_{n}}^{t_{n + 1}} \vert u' \vert = \frac{1}{N} \int\limits_{t_{0}}^{T} \vert u' \vert \]
+
+si ha che
+
+\[ \Vert u - \overline{u} \Vert_{[t_{0}, T]} \le \frac{1}{N} \int\limits_{t_{0}}^{T} \vert u' \vert \]
+
+Si osserva che, se $ u_{p} (t) = t^{p} $, con $ p > 0 $ e $ t \in (0, 1) $ si ha
+
+\[ \sup\limits_{t \in (0, 1)} \vert u_{p}' (t) \vert = \begin{cases} \infty & p < 1 \\ p & p \ge 1 \end{cases} \]
+
+e
+
+\[ \int\limits_{0}^{1} \vert u_{p}' \vert = \int\limits_{0}^{1} p t^{p - 1} \, \mathrm{d}t = 1 \]
+
+\section{Passi adattivi - generazione e trasporto dell'errore}
+\subsection{Generazione e trasporto dell'errore e scelta dei passi}
+
+\refsec{16} suggerisce di equidistribuire gli "errori locali". Gli "errori locali" vengono interpretati per un metodo a un passo dato da $ \Phi $. Scrivendo
+
+\[ u(t) = \varphi(t, t_{0}) v \]
+
+e
+
+\[
+\begin{cases}
+U_{0} = v \\
+U_{n + 1} = \Phi(t_{n + 1}, t_{n}) U_{n}
+\end{cases}
+\]
+
+si ha
+
+\[ \varphi(t_{1}, t_{0}) v - \Phi(t_{1}, t_{0}) v = \varepsilon(t_{0}, v; \tau_{0}) \]
+
+dove:
+\begin{itemize}
+\item $ \varphi(t_{1}, t_{0}) v $ non \`e calcolabile;
+\item $ \Phi(t_{1}, t_{0}) v $ \`e calcolabile;
+\item $ t_{0} $ e $ v $ sono noti;
+\item $ \tau_{0} $ \`e da determinare.
+\end{itemize}
+
+per il primo passo, mentre per il passo generico si ha
+
+\begin{dmath*}
+u(t_{n + 1}) - U_{n + 1} = \varphi(t_{n + 1}, t_{n}) u(t_{n}) - \Phi (t_{n + 1}, t_{n}) U_{n} = [ \underbrace{\varphi(t_{n + 1}, t_{n}) u(t_{n}) - \Phi (t_{n + 1}, t_{n}) U(t_{n})}_{\varepsilon(t_{n}, u(t_{n}), \tau_{n})}] + [\underbrace{\Phi (t_{n + 1}, t_{n}) U(t_{n}) - \varphi(t_{n + 1}, t_{n}) u(t_{n})}_{\text{trasporto tramite $ \Phi $. "Stabilit\`a discreta"}}]
+\end{dmath*}
+
+oppure
+
+\begin{dmath*}
+u(t_{n + 1}) - U_{n + 1} = \varphi(t_{n + 1}, t_{n}) u(t_{n}) - \Phi (t_{n + 1}, t_{n}) U_{n} = [ \underbrace{\varphi(t_{n + 1}, t_{n}) u(t_{n}) - \varphi (t_{n + 1}, t_{n}) U_{n}}_{\text{trasporto tramite $ \varphi $. "Stabilit\`a continua"}}] + [\underbrace{\varphi (t_{n + 1}, t_{n}) U_{n} - \Phi(t_{n + 1}, t_{n}) U_{n}}_{\varepsilon(t_{n}, U_{n}, \tau_{n})}]
+\end{dmath*}
+
+Ci si limiter\`a a equidistribuire (sostituzioni calcolabili) gli errori di consistenza lungo la soluzione discreta.
+
+\subsection{Un esempio con il residuo}
+Si riconsideri l'esempio
+
+\[
+\begin{cases}
+u(1) = 1 \\
+u' = t^{p} u
+\end{cases}
+\]
+
+in $ (0, 1) $ con il metodo di Eulero esplicito. Si sostituisca l'errore di consistenza con il residuo (locale)
+
+\[ R(t_{n}) = U(t_{n}) - U(t_{n - 1}) - \int\limits_{t_{n - 1}}^{t_{n}} f(t, U(t)) \, \mathrm{d}t = \int\limits_{t_{n - 1}}^{t_{n}} f(t_{n - 1}, U_{n - 1}) - f(t, U(t)) \, \mathrm{d}t \] 
+
+dove $ 1 = t_{0} > t_{1} > \dotsb > t_{N - 1} > t_{N} = 0 $ e $ U $ \`e il poligono di Eulero. La relazione
+
+\[ \mathop{toll} \approx R(t_{n}) = \int\limits_{t_{n}}^{t_{n - 1}} t_{n -1}^{p} U_{n - 1} - t^{p} U(t) \, \mathrm{d}t \approx U_{n - 1} \int\limits_{t_{n}}^{t_{n - 1}} \underbrace{t_{n - 1}^{p} - t^{p}}_{\approx p t_{n - 1}^{p} (t - t_{n})} \, \mathrm{d}t \approx U_{n - 1} p t_{n - 1}^{p - 1} \frac{1}{2} \tau_{n - 1}^{2} \]
+
+suggerisce $ \tau_{n - 1} = \sqrt{\frac{2 \mathop{toll}}{p t_{n - 1}^{p - 1} U_{n - 1}}} $
+
+Si osserva numericamente che:
+\begin{enumerate}
+\item la scelta per i passi proposta riprende l'EOC (\emph{Experimental order of convergence}, ordine di convergenza sperimentale) 1 nei casi $ p \in (-1, 0) $ al posto di $ 1 + p $;
+\item per $ p \gg 1 $ l'errore \`e pi\`u piccolo rispetto a passi uniformi, con l'aumentare di $ p $ questa differenza cresce.
+\end{enumerate}
+
+\section{Passi adattivi - stimatori con dilemma}
+\subsection{Stimatori per l'errore di consistenza}	\label{section:18.1}
+
+Dati un'evoluzione $ \varphi $ e un metodo ad un passo $ \Phi $ di ordine $ p $ si vuole approssimare numericamente l'errore di consistenza
+
+\[ \varepsilon(t, z, \tau) = \varphi(t, z, \tau) - \Phi(t, z, \tau) \]
+
+Sia $ \Phi' $ un metodo ad un passo di ordine di consistenza $ p' > p $. Fissando $ (t, z) $, si supponga che:
+\begin{itemize}
+\item $ \frac{\tau^{p + 1}}{\varepsilon(t, z, \tau)} = \mathcal{O}(1) $ per $ \tau \to 0 $
+\item $ \varepsilon'(t, z, \tau) = \varphi(t, z, \tau) - \Phi(t, z, \tau) = \mathcal{O}(\tau^{p' + 1}) $
+\end{itemize}
+
+Quindi
+\[ \forall\ \alpha > 0, \exists\ \tau^{\ast} = \tau^{\ast}(\alpha) : \forall\ \tau \in (0, \tau^{\ast}), \vert \varepsilon'(t, z, \tau) \vert \le \alpha \vert \varepsilon(t, z, \tau) \vert \]
+
+Ci\`o implica che 
+
+\begin{dmath*}
+{\vert \Phi'(t + \tau, t)z - \Phi(t + \tau, t)z \vert} \le {\vert \Phi'(t + \tau, t)z - \varphi(t + \tau, t)z \vert} + {\vert \varphi(t + \tau, t)z - \Phi(t + \tau, t)z \vert} = {\vert \varepsilon'(t, z, \tau) \vert} + {\vert \varepsilon(t, z, \tau) \vert} \le {(1 + \alpha) \vert \varepsilon(t, z, \tau) \vert}
+\end{dmath*}
+
+Se si sceglie $ \alpha < 1 $ si ha anche 
+
+\begin{dmath*}
+{\vert \Phi(t + \tau, t)z - \Phi'(t + \tau, t)z \vert} \ge {\vert \Phi(t + \tau, t)z - \varphi(t + \tau, t)z \vert} - {\vert \underbrace{\Phi'(t + \tau, t)z - \varphi(t + \tau, t)z \vert}_{= \varepsilon'(t, z, \tau)}} \ge {(1 + \alpha) \vert \varepsilon(t, z, \tau) \vert}
+\end{dmath*}
+
+Di conseguenza
+
+\begin{equation}	\label{eq:stima181}
+\frac{1}{1 + \alpha} \vert [\varepsilon](t, z, \tau) \vert \le \vert \varepsilon(t, z, \tau) \vert \le \frac{1}{1 - \alpha} \vert [\varepsilon(t, z, \tau)](t, z, \tau) \vert
+\end{equation}
+
+dove $ [\varepsilon](t, z, \tau) \defeq \Phi'(t, z, \tau) - \Phi(t, z, \tau) $.
+
+\subsection{Un dilemma}
+\refsec{18.1} suggerisce che $ [\varepsilon] $ pu\`o essere usato come sostituzione per $ \varepsilon $ per $ \tau $ sufficientemente piccolo. % e...
+Comunque in questo caso $ \Phi'(t + \tau, t)z $ \`e disponibile e approssima $ \varphi(t + \tau, t)z $ meglio di $ \Phi(t + \tau, t)z $ ma per $ \varepsilon'(t, z, \tau) $ non si dispone di uno stimatore con $ (\ref{eq:stima181}) $ in \refsec{18.1}. In particolare $ [\varepsilon] $ sovrastimer\`a $ \varepsilon' $ per $ \tau $ piccolo.
+
+Cosa \`e da preferire tra approssimazioni accurati o stimatori accurati? L'esperienza suggerisce la prima.
+
+\subsection{Metodi di Runge-Kutta immersi}
+Questo \`e lo schema di Butcher per  i Runge-Kutta immersi
+
+\begin{center}
+\begin{tabular}{c|ccc}
+                  &   &       & \\
+$ \underline{c} $ &   & $ A $ & \\
+				  &   &       & \\
+\hline
+				  &   & $ \underline{b}^{T} $ & \\
+\hline
+				  &   & $ \hat{\underline{b}}^{T} $ & \\
+\end{tabular}
+\end{center}
+
+Il metodo dato da $ \underline{b}^{T} $ ha ordine $ p $ mentre quello dato da $ \hat{\underline{b}}^{T} $ ha ordine $ \hat{p} = p - 1 $. Per $ U_{n + 1} = U_{n} + \tau \sum\limits_{i = 1}^{s} b_{i} k_{i} $ e si stima l'errore di consistenza con $ \tau \sum\limits_{i = 1}^{s} (b_{i} - \hat{b}_{i}) k_{i} $.
+
 \end{document}
