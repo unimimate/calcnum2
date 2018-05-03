@@ -22,6 +22,7 @@
 \usepackage{titling}
 \usepackage{url}
 \usepackage{array}
+\usepackage{chngcntr}
 \usepackage{tikz}
 \usepackage[a4paper]{geometry}
 
@@ -53,10 +54,24 @@
 \newtheorem{ex}[]{Esercizio}
 
 \renewcommand{\thesection}{\arabic{section}}
-
+\renewcommand{\thepage}{\roman{page}}
+\counterwithin*{equation}{section}
+\renewcommand{\theequation}{\thesection.\Alph{equation}}
+\renewcommand{\thefigure}{\thesection.\alph{figure}}
 \maketitle
 
+\tableofcontents
+
+\chapter*{Avvertenze}
+Queste dispense sono nate dal lavoro di alcuni studenti volenterosi che hanno trascritto in \LaTeX le lezioni del docente, cercando di offrire il miglior lavoro possibile da lasciare ai posteri. Dato che tale lavoro non \`e ancora stato revisionato dal docente, questo documento potrebbe contenere errori, presenti gi\`a sugli appunti del docente o generatisi durante la trascrizione.
+
+Le persone che hanno contribuito alla realizzazione della dispensa non si assumono la responsabilit\`a di eventuali errori e invitano gli usufruitori, in attesa della revisione del docente, a inviare una email con eventuali errori, segnalazioni di figure mancanti o parziali o semplice un feedback per migliorare il materiale a michael.moroni@studenti.unimi.it
+
+Data della compilazione: 3 maggio 2018.
+
 \chapter{Introduzione}
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
 \section{Discretizzazione di un problema ai valori iniziali}	\label{section:1}
 \subsection{Problema ai valori iniziali}
 Dati:
@@ -98,8 +113,8 @@ dove:
 \item $ \tau \defeq \frac{T - t_{0}}{N} $ \`e il passo temporale.
 \end{itemize}
 
-\begin{center}
 \begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
 	\draw[->] (-4,0) -- (4,0) node[right] {$ t $};
 	\filldraw (-3,0) circle (1pt) node[below] {$ t_{1} $};
@@ -112,8 +127,8 @@ dove:
 \end{tikzpicture}
 
 \caption{Esempio di discretizzazione dell'asse delle $ t $. $ \tau $ \`e la distanza tra i vari nodi ed \`e costante.}
-\end{figure}
 \end{center}
+\end{figure}
 
 \subsection{Sostituzione dell'operatore differenziale}
 Data ad esempio $ t \in U_{N} $, neanche $ f \left( t, u(t) \right) = u'(t) $ \`e verificabile al computer poich\'e in generale
@@ -432,8 +447,8 @@ Per rimediare si passa al poligono di Eulero: una funzione $ U: [t_{0}, T] \to \
 U(t) = \frac{t - t_{n - 1}}{\tau_{n}} U_n + \frac{t_{n} - t}{\tau_{n}} U_{n - 1} = U_{n - 1} + (t - t_{n - 1}) \frac{U_{n} - U_{n-1}}{\tau_{n}} = U_{n - 1} + (t - t_{n - 1}) f(t_{n - 1}, U_{n - 1})
 \end{dmath*}
 
-\begin{center}
 \begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
       \draw[->] (-1, 0) -- (7,0) node[right] {$ t $};
       \draw[->] (0, -1) -- (0, 3.5) node[above] {$ U(t) $};
@@ -450,8 +465,8 @@ U(t) = \frac{t - t_{n - 1}}{\tau_{n}} U_n + \frac{t_{n} - t}{\tau_{n}} U_{n - 1}
 \end{tikzpicture}
 
 \caption{Esempio di poligono di Eulero}
-\end{figure}
 \end{center}
+\end{figure}
 
 \subsection{Residuo del poligono di Eulero}
 Dato il poligono di Eulero, si definisce residuo la quantit\`a:
@@ -656,7 +671,12 @@ In un problema dove $ f $ \`e Lipschitz rispetto a  $ z $ e $ u $ tre volte deri
 \end{tabular}
 \end{center}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%											Sezione ricopiata
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Velocit\`a di convergenza e dipendenza dalla regolarit\`a}
 \subsection{Eulero esplicito vs. Eulero modificato}
 
@@ -674,8 +694,8 @@ Nella seguente tabella viene mostrato il costo in termini di valutazion edella $
 
 Questo viene illustrato anche nel bilancio qualit\`a-costo in scala $ \log-\log $
 
-\begin{center}
 \begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
 	\draw[->] (-1, 0) -- (5, 0) node[right] {$ \log N $};
 	\draw[->] (0, -5) -- (0, 1) node[above] {$ \log \mathop{err} $};
@@ -692,8 +712,8 @@ Questo viene illustrato anche nel bilancio qualit\`a-costo in scala $ \log-\log 
 \end{tikzpicture}
 
 \caption{$ \mathop{err} \approx C N^{-p} \iff \log \mathop{err} \approx \log C - p \log N $}
-\end{figure}
 \end{center}
+\end{figure}
 
 \subsection{Impatto della regolarit\`a}
 Si consideri il problema
@@ -707,8 +727,8 @@ u(1) = \exp \left( \frac{1}{1 + p} \right)
 
 con $ p > -1 $. La soluzione \`e $ u(t) = \exp \left( \frac{t^{p + 1}}{p + 1} \right) $ per $ t \ge 0 $. Posto $ f(t, z) = t^{p} z $, con $ z \in \mathbb{R} $ e $ t > 0 $ si ha il seguente grafico:
 
-\begin{center}
 \begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
 	\draw[->] (-1, 0) -- (2, 0) node[right] {$ z $};
 	\draw[->] (0, -1) -- (0, 3) node[right] {$ f(2, z) $};
@@ -722,8 +742,8 @@ con $ p > -1 $. La soluzione \`e $ u(t) = \exp \left( \frac{t^{p + 1}}{p + 1} \r
 \end{tikzpicture}
 
 \caption{Grafici di $ f(2, z) $ con $ p = 1 $ (puntinato), $ p = 0.4 \in (0, 1) $ (tratteggiato), $ p = 10 \gg 1 $ (grafico inferiore) e $ p = -0.7 \in (-1, 0) $ (grafico superiore)}
-\end{figure}
 \end{center}
+\end{figure}
 
 Si osserva numericamente che:
 \begin{enumerate}
@@ -732,11 +752,60 @@ Si osserva numericamente che:
 \item per $ p \in (-1, 0) $ entrambi i metodi mostrano solo l'errore di convergenza $ 1 + p < 1 $. Una "spiegazione" \`e data da $ \tau^{2} \tau^{p - 1} = \tau^{p + 1} $.
 \end{enumerate}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+%										Sezione 11 e 12 ricopiate
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-										MANCANO LE LEZIONI 11 E 12!
+\section{Regolarit\`a di soluzioni}
+\subsection{Spazi $ \mathcal{C}^{r}(A), A \subseteq \mathbb{R}^{n} $}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Sia $ A \subseteq \mathbb{R}^{n} $ non vuoto e aperto. Dato un multiindice $ \alpha = (\alpha_{1}, \dotsc, \alpha_{n}) \in \mathbb{N}_{0}^{n} $ si scrive $ \partial^{\alpha} g(x) = \frac{\partial^{\vert \alpha \vert}}{\partial^{\alpha_{1}} x_{1} \dotsm \partial^{\alpha_{n}} x_{n}} g(x) $ con $ \vert \alpha \vert = \sum\limits_{i = 1}^{m} \alpha_{i} $ e si pone $ \mathcal{C}^{r}(A, \mathbb{R}^{l}) \defeq \{ g: A \to \mathbb{R}^{d} : \forall\ \vert \alpha \vert < r, \exists\ \partial^{\alpha} g \text{ ed \`e continua} \} $ e $ \mathcal{C}^{\infty} (A, \mathbb{R}^{l}) \defeq \bigcap\limits_{r \in \mathbb{N}} \mathcal{C}^{r} (A, \mathbb{R}^{l}) $.
+
+\subsection{Regolarit\`a superiore}	\label{section:11.2}
+Siano $ \Omega \subseteq \mathbb{R} \times \mathbb{R}^{d} $ non vuoto, aperto e connesso, $ f: \Omega \to \mathbb{R}^{d} $, $ t_{0} < T $, $ v \in \mathbb{R}^{d} $, $ (t_{0}, v) \in \Omega $ e sia $ u $ una soluzione di $ (\ref{eq:PVI}) $ in $ [t_{0}, T] $. $ \forall\ r \in \mathbb{N}_{0} \cup \{ \infty \} $ si ha $ f \in \mathcal{C}^{r} (\Omega, \mathbb{R}^{d}) \implies u \in \mathcal{C}^{r + 1} ([t_{0}, T], \mathbb{R}^{d}) $.
+
+\begin{proof}
+Si definisce induttivamente 
+
+\[
+\begin{cases}
+f_{0} (t, z) \defeq f(t, z) \\
+f_{k + 1} (t, z) \defeq \partial_{t} f_{(k)} (t, z) + \partial_{z} f_{(k)} (t, z) f(t, z)
+\end{cases}
+\]
+
+Si osserva che $ u^{(1)} (t) = f(t, u(t)) - f_{(0)} (t, u(t)) $ e quindi $ f \in \mathcal{C}^{0}(\Omega, \mathbb{R}) $, ovvero $ u \in \mathcal{C}^{1}([t_{0}, T], \mathbb{R}^{d}) $. Inoltre se $ r \ge 1 $ si possono derivare (dapprima il secondo membro) $ u^{(2)} (t) = \frac{\mathrm{d}}{\mathrm{d} t} [f_{(0)} (\cdot, u)] (t) = \partial_{t} f_{(0)} (t, u(t)) + \partial_{z} f(t, u(t)) u'(t) = f_{(1)} (t, u(t)) $ da cui $ f \in \mathcal{C}^{1} (\Omega, \mathbb{R}^{d}) $ e quindi $ u \in \mathcal{C}^{2} ([t_{0}, T], \mathbb{R}^{d}) $. Ripetendo con $ (r) $ al posto di $ (1) $ si arriva a $ u^{(r + 1)} (t)  f_{(r)} (t, u(t)) $, da cui la tesi.
+\end{proof}
+
+\subsection{Corollario}
+Nelle ipotesi di \refsec{11.2} si ha $ \forall\ k = 0, \dotsc, r - 1, u^{(k + 1)} (t) = f_{(k)} (t, u(t)) $.
+
+\section{Ordine di consistenza}
+\subsection{Definizione di ordine di convergenza}
+Un metodo ad un passo consistente di ordine $ r \in \mathbb{N} $ per $ u' = f(\cdot, u) $ con $ f \in \mathcal{C}^{r} (\Omega, \mathbb{R}^{d}) $ implica che $ \forall\ (t, z) \in \Omega, \varepsilon(t, z, \tau) = \varphi (t + \tau, t)z - \Phi(t + \tau, t) = \mathcal{O}(\tau^{r + 1}) $ con $ \tau \to 0 $.
+
+\subsection{Condizioni sufficienti}	\label{section:12.2}
+Un metodo ad un passo \`e consistente di ordine $ r $ per $ u' = f(\cdot, u) $ se $ f \in \mathcal{C}^{r}(\Omega, \mathbb{R}^{d}) $ implica che $ \forall\ (t, z) \in \Omega, \exists\ \tau^{\ast} > 0 : F(t, z, \cdot) \in \mathcal{C}^{r}([0, \tau^{\ast}], \mathbb{R}^{d}) $ se vale una delle seguenti condizioni equivalenti:
+\begin{enumerate}
+\item $ \forall\ (t, z) \in \Omega, k = 1, \dotsc, r, \frac{\mathrm{d^{k}}}{\mathrm{d} \tau^{k}} \big\vert_{\tau = 0} \Phi(t + \tau, t)z = f_{(k + 1)}(t, z) $;
+\item $ \forall\ (t, z) \in \Omega, k = 1, \dotsc, r, \partial_{\tau} F^{k} (t, z, 0) = \frac{1}{k + 1} f_{(k)} (t, z) $.
+\end{enumerate}
+
+\begin{proof}
+\noindent
+\begin{itemize}
+\item Sia $ f \in \mathcal{C}^{r}(\Omega, \mathbb{R}^{d}) $, in virt\`u di \refsec{11.2} si ha $ \varphi(t + \cdot, t) z \in \mathcal{C}^{r + 1} ([0, \tau^{\ast}], \mathbb{R}^{d}) $ per qualche $ \tau^{\ast} > 0 $. Derivando $ \Phi(t + \cdot, t) z $ si ha $ \frac{\mathrm{d}}{\mathrm{d} \tau} \Phi(t + \tau, t) z = \frac{\mathrm{d}}{\mathrm{d} \tau} [z + \tau F(t, z, \tau)] = F(t, z, \tau) + \tau \partial_{\tau} F(t, z, \tau) $ grazie alla regola del prodotto. Per induzione si ottiene $ \frac{\mathrm{d}^{k}}{\mathrm{d} \tau^{k}} \Phi(t + \tau, t) z = k \partial_{\tau}^{k - 1} F(t, z, \tau) + \tau \partial_{\tau}^{k} F(t, z, \tau) $. Questo implica che $ 1. \iff 2. $;
+\item Usando gli sviluppi di Taylor si ottiene 
+
+\begin{dmath*}
+\varepsilon(t, z, \tau) = \varphi(t + \tau, t) z - \Phi(t + \tau, t) = z + \sum\limits_{k = 1}^{r} \frac{1}{k!} f_{(k - 1)} (t, z) \tau^{k} + \mathcal{O}(\tau^{r + 1}) - \left[ z + \tau \left( \sum\limits_{k = 0}^{r - 1} \frac{1}{k!} \partial_{\tau}^{k} F(t, z, 0) \tau^{k} + \mathcal{O}(\tau^{k}) \right) \right] = \sum\limits_{k = 1}^{r} \frac{1}{(k - 1)!} \partial_{\tau}^{k - 1} F(t, z, 0) \tau^{k - 1} = \sum\limits_{k = 1}^{r} \left[ \frac{1}{(k - 1)!} f_{(k - 1)} (t, z) - \frac{1}{(k - 1)!} \partial_{\tau}^{k - 1} F(t, z, 0) \right] \tau^{k} = 0
+\end{dmath*}
+
+Grazie a $ 2. $ si ha che il tutto \`e $ \mathcal{O}(\tau^{r + 1}) $.
+\end{itemize}
+\end{proof}
 
 \section{Metodi di Runge-Kutta}
 \subsection{Definizione}
@@ -829,11 +898,161 @@ Essendo un metodo a un passo si pu\`o usare \refsec{8.1} (2). Nel caso di $ \tau
 $ \forall\ i = 1, \dotsc, s $ da cui $ F(t, z, 0) = \sum\limits_{i = 1}^{s} b_{i} k_{i} = \left( \sum\limits_{i = 1}^{s} b_{i} \right) f(t, z) $. Se il metodo \'e consistente allora $ F(t, z, 0) = f(t, z) $ e $ f(t, z) \ne 0 $ implica $ \sum\limits_{i = 1}^{s} b_{i} = 1 $. Viceversa, se $ \sum\limits_{i = 1}^{s} b_{i} = 1 $ e se $ k_{i} = k_{i} (t, z) $ sono continui in $ (t, z) $, allora vale \refsec{8.1} (2)  e il metodo definito da $ (A, \underline{b}, \underline{c}) $ \`e consistente.
 \end{proof}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Consistenza di ordine superiore di metodi RK}
+\subsection{Derivazione delle condizioni}
 
-										MANCANO LE LEZIONI 14 E 15!
+Prima si derivano delle condizioni in termini dello schema di Butcher a $ s $ stadi. Per semplificare si supponga
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}	\label{eq:ci+f}
+\begin{cases}
+c_{i} = \sum\limits_{j = 1}^{s} a_{ij} \\
+f = f(z)
+\end{cases}
+\end{equation} 
+
+Si vuole usare, per $ k = 0, \dotsc, r - 1 $ (si veda \refsec{12.2} (1.)):
+
+\[ \partial^{k}_{\tau} F(z, 0) \defeq \frac{\partial^{k}}{\partial \tau^{k}} F(z, 0) = \frac{1}{1 + k} f_{(k)} (z) \]
+
+Dapprima si definisce $ \partial^{k}_{\tau} F(z, t)  $ in termini di $ A $, $ b $ e $ f $. Dalla definizione si ha
+
+\[ \partial^{k}_{\tau} F(z, 0) = \sum\limits_{i = 1}^{s} b_{i} \partial^{k}_{\tau} K_{i}(z, \tau) \]
+
+dove $ K_{i} = K_i(z, \tau) $ sono tali che, $ \forall\ i = 1, \dotsc, s $:
+
+\begin{equation}	\label{eq:Ki}
+K_{i} = f \left( z + \tau \sum\limits_{j = 1}^{s} a_{ij} K_{j} \right) 
+\end{equation}
+
+Per determinare le derivate dei $ K_{i} $ si ricostruisce lo sviluppo di Taylor "intorno" a $ \tau = 0 $ iterativamente. Grazie alla continuit\`a di $ f $ si ha per $ \tau \to 0 $ e $ \forall\ i = 1, \dotsc, s $:
+
+\[ K_{i} (z, \tau) = f(z) + o(1) \]
+
+Usando questa approssimazione in $ (\ref{eq:Ki}) $ e uno sviluppo di Taylor al secondo passaggio si ottiene
+
+\begin{dmath}	\label{eq:Ki2}
+K_{i} = f \left( z + \tau \sum\limits_{j = 1}^{s} a{ij} [f(z) + o(1)] \right) = \underbrace{f(z)}_{\in \mathbb{R}^{d}} + \sum\limits_{l = 1}^{d} \underbrace{\partial_{l} f(z)}_{\in \mathbb{R}^{d}} \tau \underbrace{\sum\limits_{j = 1}^{s} a_{ij}}_{= c_{i} \text{ per } (\ref{eq:Ki})} \underbrace{f_{l}(z)}_{\in \mathbb{R}} + o(\tau) = f(z) + \underbrace{c_{i} \tau \sum\limits_{l = 1}^{d} \partial_{l} f(z) f_{l} (z) + o(\tau) }_{\text{che corrisponde a } \approx o(1)}
+\end{dmath}
+
+Quindi 
+
+\[ \partial_{\tau} K_{i}(z, 0) = c_{i} \sum\limits_{l = 1}^{d} f_{l}(z) \partial_{l} f(z) \]
+
+Usando l'approssimazione migliorata $ (\ref{eq:Ki2}) $ e facendo uno sviluppo di Taylor si ottiene
+
+\begin{dmath}
+K_{i} = f \left( z + \tau \sum\limits_{j = 1}^{s} a_{ij} \left[ f(z) + c_{j} \tau \sum\limits_{l = 1}^{d} f_{l}(z) \partial_{l} f(z) + o(\tau) \right] \right) = f(z) + \sum\limits_{m = 1}^{d} \partial_{m} f(z) \tau c_{i} f_{m}(z) + \sum\limits_{m = 1}^{d} \partial_{m} f(z) \tau^{2} \sum\limits_{j = 1}^{s} a_{ij} c_{j} \sum\limits_{l = 1}^{d} f_{l}(z) \partial_{l} f_{m} (z) + o(\tau^{2}) + \frac{1}{2} \sum\limits_{m, l = 1}^{d} \partial_{lm} f(z) \tau^{2} c_{i}^{2} f_{l}(z) + o(\tau^{2})
+\end{dmath}
+
+da cui
+
+\[ \partial_{\tau}^{2} K_{i} (z, 0) = 2 \left( \sum\limits_{j = 1}^{s} a_{ij} c_{j} \right) \sum\limits_{m, l = 1}^{d} f_{l}(z) \partial_{l} f_{m}(z) \partial_{m} f(z) + c_{i}^{2} \sum\limits_{m, l = 1}^{d} f_{l}(z) f_{m}(z) \partial_{lm} f(z) \]	% TODO: controllare
+
+Questo era il primo membro di \refsec{12.2} (2). Ora si consideri il secondo membro. Si ha
+
+\begin{itemize}
+\item $ f_{(1)}(z) = \underbrace{\partial_{z}}_{(\partial_{1}, \dotsc, \partial_{d})} f(z) f(z) = \sum\limits_{l = 1}^{d} \partial_{l} f(z) f_{l} (z) $
+\item $ f_{(2)}(z) = \partial_{z} f_{(1)}(z) f(z) = \sum\limits_{m = 1}^{d} \partial_{m} f_{(1)} (z) f_{m}(z) = \sum\limits_{l, m = 1}^{d} \partial_{m} f_{l}(z) \partial_{l} f(z) + \sum\limits_{l, m = 1}^{d} \partial_{l m} f(z) f_{l} (z) f_{m} (z) $
+\end{itemize}
+
+Chiedendo \refsec{12.2} (2) per ogni $ f $ e diversi $ K $ si arriva a
+
+\begin{itemize}
+\item $ k = 0: \sum\limits_{i = 1}^{s} b_{i} = 1 $
+\item $ k = 1: \sum\limits_{i = 1}^{s} b_{i} c_{i} = \frac{1}{2} $
+\item $ k = 2: \sum\limits_{i, j = 1}^{s} b_{i} a_{ij} c_{j} = \frac{1}{6} $ e $ \sum\limits_{i = 1}^{s} b_{i} c_{i}^{2} = \frac{1}{3} $
+\end{itemize} 
+
+Il numero delle condizioni cresce drammaticamente:
+
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c}
+	Ordine & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & \ldots & 20 \\
+\hline
+	Numero condizioni & 1 & 2 & 4 & 8 & 17 & 37 & 85 & 200 & 486 & 1205 & \ldots & $ 20 \cdot 247 \cdot 374 $ \\
+\end{tabular}
+\end{center}
+
+\subsection{Barriere di Butcher per metodi RKE}
+Ci\`o che si \`e visto prima era per metodi arbitrari (espliciti o impliciti). Butcher ha determinato il numero di stadi minimo in relazione all'ordine, per ordini non minori di 9:
+
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c|c|c}
+	$ p $ & 1 & 2 & 3 & 4 & 5 & 6 & 8 & $ \ge 9 $ \\
+\hline
+	$ s $ & 1 & 2 & 3 & 4 & 6 & 7 & 11 & $ \ge p + 3 $ \\
+\end{tabular}
+\end{center}
+
+\section{Consistenza ed estrapolazione}
+\subsection{Estrapolazione di Richardson}
+
+Sia $ \Phi $ l'evoluzione discreta di un metodo a un passo di ordine di consistenza $ r \ge 1 $, allora, se $ f \in \mathcal{C}^{r + 1} (\Omega, \mathbb{R}^{d}) $ il metodo con evoluzione
+
+\[ \Phi_{1}(t + \tau, t) z = \frac{2^{r} \overbrace{\Phi_{0} \left( t + \tau, t + \frac{\tau}{2} \right) \Phi_{0} \left( t + \frac{\tau}{2}, t \right) z}^{= U_{1}} - \overbrace{\Phi_{0}(t + \tau, t)z}^{\hat{U}_{1}} }{2^{r} - 1} \]
+
+ha ordine di consistenza $ r + 1 $, triplicando per\`o il costo.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+	\draw[->] (-3, 0) -- (3, 0) node[right] {$ t $};
+	\filldraw (-2, 0) circle (1pt) node[below] {$ t_{n} $};
+	\filldraw (0, 0) circle (1pt) node[below] {$ t_{n} + \frac{\tau}{2} $};
+	\filldraw (2, 0) circle (1pt) node[below] {$ t_{n + 1} $};
+	\path[->] (-2, 0.1) edge[bend left] (0, 0.1);
+	\path[->] (0, 0.1) edge[bend left] (2, 0.1);
+	\path[->] (-2, 0.2) edge[bend left] (2, 0.2);
+\end{tikzpicture}
+
+\caption{Esempio di estrapolazione di Richardson}
+\end{center}
+\end{figure}
+
+\begin{proof}
+Si fissi $ (t, z) \in \Omega $ e $ \tau > 0 $ sufficientemente piccolo e si ponga:
+
+\begin{itemize}
+\item $ u_{\frac{1}{2}} = \varphi \left( t + \frac{\tau}{2}, t \right) z $, che \`e la soluzione esatta dopo mezzo passo;
+\item $ u_{1} = \varphi \left( t + \tau, t \right) z $, che \`e la soluzione esatta dopo un passo;
+\item $ \hat{U}_{1} = \Phi_{0} (t + \tau, t) z $;
+\item $ U_{\frac{1}{2}} = \Phi_{0} \left( t + \frac{\tau}{2}, t \right) z $;
+\item $ U_{1} = \Phi_{0} \left( t + \tau, t + \frac{\tau}{2} \right) z $.
+\end{itemize}
+
+Poich\'e $ f \in \mathcal{C}^{r + 1} (\Omega, \mathbb{R}^{d}) $, uno sviluppo di Taylor fornisce
+
+\begin{equation}	\label{eq:Vrichardson}
+u_{1} - \hat{U}_{1} = \underbrace{C(t, z) \tau^{r + 1}}_{\varepsilon(t, z, \tau)} + O(\tau^{r + 1})
+\end{equation}
+
+Inoltre
+
+\[
+{ u_{1} - U_{1} } = { \left[ \varphi \left( t + \tau, t + \frac{\tau}{2} \right) u_{\frac{1}{2}} - \varphi \left( t + \tau, t + \frac{\tau}{2} \right) \right] } + \\ { \left[ \varphi \left( t + \tau, t + \frac{\tau}{2} \right) - \Phi_{0} \left( t + \tau, t + \frac{\tau}{2} \right) U_{\frac{1}{2}} \right] } { \eqdef I_{1} + I_{2} }
+\]
+
+Ora:
+
+\begin{itemize}
+\item $ I_{1} = (1 + O(\tau)) \underbrace{(u_{\frac{1}{2}} - U_{\frac{1}{2}})}_{\text{consistenza su mezzo passo: } C(t, z) \left( \frac{\tau}{2} \right)^{r + 1} + O(\tau^{r + 2})} = 2^{-(r + 1)} C(t, z) \tau^{r + 1} + O(\tau^{r + 2}) $
+\item $ I_{2} = \underbrace{C \left(t + \frac{\tau}{2}, U_{\frac{1}{2}} \right)}_{= C(t, z) + O(\tau)} \left( \frac{\tau}{2} \right)^{r + 1} + O(\tau^{r + 2}) = 2^{-(r + 1)} C(t, z) \tau^{r + 1} + O(\tau^{r + 2}) $
+\end{itemize}
+
+Di conseguenza
+
+\begin{equation}	\label{eq:W2richardson}
+u_{1} - U_{1} = I_{1} + I_{2} = 2^{-r} C(t, z) \tau^{r + 1} + O(\tau^{r + 2})
+\end{equation}
+
+Considerando 
+
+\[ \frac{2^{r} (\ref{eq:W2richardson}) - (\ref{eq:Vrichardson})}{2^{r} - 1} \]
+
+si ottiene:
+
+\[ u_{1} - \frac{2^{r} U_{1} - \hat{U}_{1}}{2^{r} - 1} = O(\tau^{r + 2}) \]
+\end{proof}
 
 \section{Passi adattivi - idea e potenziale}	\label{section:16}
 \subsection{Passi da seguire}
@@ -853,8 +1072,8 @@ U_{n + 1} \defeq \Phi(t_{n + 1}, t_{n}) U_{n}
 
 dove $ t_{n + 1} = t_{n} + \tau_{n} $ e  $ t_{N} = T $ e i $ \tau_{i} $, con $ i = 0, \dotsc, N - 1 $, sono da scegliere.
 
-\begin{center}
 \begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
 	\draw[->] (-4, 0) -- (4, 0) node[right] {$ t $};
 	\filldraw (-3, 0) circle (1pt) node[above] {$ t_{0} $};
@@ -871,8 +1090,8 @@ dove $ t_{n + 1} = t_{n} + \tau_{n} $ e  $ t_{N} = T $ e i $ \tau_{i} $, con $ i
 \end{tikzpicture}
 
 \caption{Esempio di griglia adattiva}
-\end{figure}
 \end{center}
+\end{figure}
 
 Ci interessa una scelta "ottima", cio\`e del tipo: fissato $ N $, si minimizzi $ {\vert u(T) - U_{N} \vert} $, $ {\max\limits_{n = 1, \dotsc, N} \vert u(t_{n}) - U_{n} \vert } $ oppure $ { \sup\limits_{t \in [t_{0}, T]} \vert u(t) - U_{t} \vert } $, con $ U(t) $ da definire. In alternativa si pu\`o considerare fissato $ \varepsilon > 0 $ la minimizzazione di $ N $ con $ { \vert u(T) - U_{N} \vert \le \varepsilon } $.
 
@@ -883,8 +1102,8 @@ Sia $ u \in \mathcal{C}^{0} ([t_{0}, T]) $ e si consideri
 
 con $ \Vert u - s \Vert_{[t_{0}, T]} \defeq \sup\limits_{t \in [t_{0}, T]} \Vert u(t) - s(t) \Vert $ e $ \overline{u}_{\big\vert [t_{n}, t_{n + 1})} = u(t_{n}) $
 
-\begin{center}
 \begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
 	\draw[->] (-1, 0) -- (5, 0) node[right] {$ t $};
 	\draw[->] (0, -1) -- (0, 5) node[above] {$ u, \overline{u} $};
@@ -909,8 +1128,8 @@ con $ \Vert u - s \Vert_{[t_{0}, T]} \defeq \sup\limits_{t \in [t_{0}, T]} \Vert
 \end{tikzpicture}
 
 \caption{Esempio di grafico di $ u $ (funzione continua) e di $ \overline{u} $ (funzione a tratti)}
-\end{figure}
 \end{center}
+\end{figure}
 
 Se $ u \in \mathcal{C}^{1} ([t_{0}, T]) $ allora, con $ t \in [t_{0}, T] $
 
@@ -1068,4 +1287,386 @@ $ \underline{c} $ &   & $ A $ & \\
 
 Il metodo dato da $ \underline{b}^{T} $ ha ordine $ p $ mentre quello dato da $ \hat{\underline{b}}^{T} $ ha ordine $ \hat{p} = p - 1 $. Per $ U_{n + 1} = U_{n} + \tau \sum\limits_{i = 1}^{s} b_{i} k_{i} $ e si stima l'errore di consistenza con $ \tau \sum\limits_{i = 1}^{s} (b_{i} - \hat{b}_{i}) k_{i} $.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%										CONTROLLARE LE LEZIONI 19 E 20!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Stabilit\`a}
+\setcounter{section}{18}
+\section{Buona posizione, buon condizionamento e stabilit\`a asintotica}
+\subsection{Dipendenza in $ T < \infty $}
+
+Sia $ \varphi $ l'evoluzione associata a $ u' = f(\cdot, u) $. Inoltre siano $ (t_{0}, v) \in \Omega $ e $ T > t_{0} $ tale che $ \varphi(T, t_{0}) v $ \`e ben definito. Si consideri
+
+\begin{equation}	\label{eq:evol}
+\varphi(T, t_{0}) v = ?
+\end{equation}
+
+sotto perturbazioni di $ v \in \mathbb{R}^{d} $. Allora: 	% TODO: appunti di Manuel contengono cose non chiare
+\begin{enumerate}
+\item se $ \varphi(T, t_{0}) v $ \`e continua in $ v $, cio\`e $ \forall\ \varepsilon > 0, \exists\ \delta = \delta(\varepsilon) > 0 : \forall\ w \in \mathbb{R}^{d}, \vert v - w \vert < \delta \implies \begin{cases}
+\exists\ \varphi (T, t_{0}) w \\
+\vert \varphi (T, t_{0}) v - \varphi(T, t_{0}) w \vert < \varepsilon
+\end{cases} $ allora $ (\ref{eq:evol}) $ si dice ben posto (secondo Hadamard);
+\item se esistono $ \delta^{\ast} > 0 $ "non troppo piccolo" e $ k $ "non troppo grande" tali che $ \forall\ w \in \mathbb{R}^{d} $ si ha che $ \vert w - v \vert < \delta^{\ast} \implies \begin{cases}
+\exists\ \varphi(t, t_{0}) w \\
+\vert \varphi(T, t_{0}) v - \varphi(T, t_{0}) w \vert < k \vert v - w \vert
+\end{cases} $ allora $ (\ref{eq:evol}) $ si dice ben condizionato. Questo equivale a dire che $ \varphi(T, t_{0}) $ \`e lipschitziana con costante "non troppo grande" in un intorno "non troppo piccolo";
+\item al posto di $ (\ref{eq:evol}) $ si pu\`o considerare anche $ \varphi(t, t_{0}) v $ per $ t \in (t_{0}, T] $ e sostituire nelle definzioni precedenti $ \vert \varphi(T, t_{0}) v - \varphi(T, t_{0}) w \vert $ con $ \max\limits_{t \in [t_{0}, T]} \vert \varphi(T, t_{0}) v - \varphi(T, t_{0}) w \vert $.
+\end{enumerate}
+
+\subsection{Dipendenza in $ [t_{0}, \infty) $}
+\begin{enumerate}
+\item Se per $ \varepsilon > 0, \exists\ \delta = \delta (\varepsilon) > 0 : \forall\ w \in \mathbb{R}^{d}, \vert w - v \vert < \delta \implies \forall\ t \in [t_{0}, T] \begin{cases}
+\exists\ \varphi(t, t_{0}) w \\
+\vert \varphi (t, t_{0}) v - \varphi(t, t_{0}) w \vert < \varepsilon
+\end{cases} $ allora $ \varphi(t, t_{0}) v $ si dice stabile. Se $ f(v) = 0 $ ovvero $ \varphi(t, t_{0}) v = v $ (\`e stabile) questo equivale alla stabilit\`a secondo Lyapunov;
+\item Se $ \varphi(\cdot, t_{0}) v $ \`e stabile e $ \exists\ \delta > 0 : \forall\ w \in \mathbb{R}^{d}, \vert w - v \vert < \delta \implies \lim\limits_{t \to \infty} \vert \varphi(t, t_{0}) v - \varphi(t, t_{0}) w \vert = 0 $ allora $ \varphi(\cdot, t_{0}) v $ si dice asintoticamente stabile. Tale propriet\`a non \`e facile riprodurlo nel discreto;
+\item Se non vale il punto $ 1. $ allora $ \varphi(\cdot, t_{0}) v $ si dice instabile. 
+\end{enumerate}
+
+\section{Funzione e dominio di stabilit\`a}
+\subsection{Problemi test di Dahlquist}	\label{section:20.1}
+Il problema: trovare $ u \in \mathcal{C}^{1}(\mathbb{R}, \mathbb{C}) $ tale che 
+
+\[
+\begin{cases}
+u' = \lambda u \\
+u(0) = 1
+\end{cases}
+\]
+
+in $ \mathbb{R} $ si dice problema-test di Dahlquist per $ \lambda \in \mathbb{C} $. Si osservi che $ u(t) = e^{\lambda t} $ con $ t \in \mathbb{R} $ e quindi:
+\begin{itemize}
+\item $ \lim\limits_{t \to \infty} \vert u(t) \vert = 0 $ se e solo se $ \Re (\lambda) < 0 $ (asintoticamente stabile);
+\item $ \forall\ t \ge 0, \vert u(t) \vert = \vert u(0) \vert $ se e solo se $ \Re (\lambda) = 0 $;
+\item $ \lim\limits_{t \to \infty} \vert u(t) \vert = \infty $ se e solo se $ \Re (\lambda) > 0 $.
+\end{itemize}
+
+Inoltre $ u^{(p + 1)} (t) = \lambda^{p + 1} e^{\lambda t} = \lambda^{p + 1} u(t) $, cio\`e le derivate modulo potenze di $ \lambda $ hanno lo stesso comportamento per $ t \to +\infty $ (se il problema \`e asintoticamente stabile le derivate vanno a $ 0 $). Le derivate vanno come la funzione.
+
+\subsection{Funzione di stabilit\`a}	\label{section:20.2}
+Siano $ A $, $ b $ e $ c $ di un metodo RK e si denoti con $ \Phi_{\lambda} (\tau) : \mathbb{C} \to \mathbb{C} $ la sua evoluzione per \refsec{20.1} usando l'autonomia dell'EDO. Dato $ z \in \mathbb{C} $ si scriva $ z = \lambda \tau $ con $ \lambda \in \mathbb{C} $ e $ \tau \ge 0 $, si definisca la funzione di stabilit\`a del metodo considerato tramite $ R(z) = \Phi_{\lambda} (\tau) $. Si ha che:
+\begin{enumerate}
+\item $ R $ \`e ben definita;
+\item la soluzione del metodo considerato per \refsec{20.1} con passo uniforme $ \tau > 0 $ \`e $ U_{n} = R(\tau \lambda)^{n} $ con $ n \in \mathbb{N} $.
+\end{enumerate}
+
+\begin{proof}
+\noindent
+\begin{enumerate}
+\item Siano $ \tau, \tilde{\tau} \ge 0 $ e $ \lambda, \tilde{\lambda} \in \mathbb{C} $ tali che $ \tilde{\tau} \tilde{\lambda} = \tau \lambda $ con $ \tau > 0 $. Gli stadi $ k_{i} $ e $ \tilde{k}_{i} $ sono rispettivamente dati da $ k_{i} = \lambda \left( 1 + \tau \sum\limits_{j = 1}^{s} a_{ij} k_{j} \right) $ e $ \tilde{k}_{i} = \tilde{\lambda} \left( 1 + \tilde{\tau} \sum\limits_{j = 1}^{s} a_{ij} \tilde{k}_{j} \right) $  da cui, moltiplicando rispettivamente per $ \tau $ e $ \tilde{\tau} $ si ricava $ \tau k_{i} = \tau \lambda \left( 1 + \tau \sum\limits_{j = 1}^{s} a_{ij} k_{j} \right) $ e $ \tilde{\tau}\tilde{k}_{i} = \tilde{\tau} \tilde{\lambda} \left( 1 + \tilde{\tau} \sum\limits_{j = 1}^{s} a_{ij} \tilde{k}_{j} \right) $, per $ i = 1, \dotsc, s $. Da ci\`o si ottiene $ \tau k_{i} = \tilde{\tau} \tilde{k}_{i} $, di conseguenza $ 1 + \sum\limits_{j = 1}^{s} b_{i} (\tau k_{i}) = 1 + \sum\limits_{j = 1}^{s} b_{i} (\tilde{\tau} \tilde{k}_{i}) $, ovvero $ \Phi_{\lambda}(\tau) = \Phi_{\tilde{\lambda}} (\tilde{\tau}) $;
+\item $ U_{n + 1} = \Phi_{\lambda} (\tau) U_{n} $ per linearit\`a \`e uguale a $ \Phi_{\lambda} (\tau) U_{n} = R(\lambda \tau) U_{n} $ e per induzione si ottiene che $ U_{n + 1} = R(\lambda \tau)^{n} $.
+\end{enumerate}
+\end{proof}
+
+\subsection{Dominio di stabilit\`a}
+Se $ U_{n} $ \`e soluzione discreta di \refsec{20.1} allora \refsec{20.2} (2.) implica:
+\begin{itemize}
+\item $ \lim\limits_{n \to \infty} U_{n} = 0 \iff \vert R(\lambda \tau) \vert < 1 $;
+\item $ \forall\ n \in \mathbb{N}, \vert U_{n} \vert = \vert U_{0} \vert $;
+\item $ \vert U_{n} \vert \to \infty \iff \vert R(\tau \lambda) \vert > 1 $.
+\end{itemize}
+
+Si introduce il dominio di stabilit\`a del metodo consistente:
+
+\[ S = \{ z \in \mathbb{C} : \vert R(z) \vert < 1 \} \]
+
+\section{Stabilit\`a di EDO autonomi lineari omogenei}
+\subsection{EDO autonomi lineari omogenei e stabilit\`a}	\label{section:21.1}
+
+Si consideri l'EDO
+
+\begin{equation}	\label{equation:EDOmultidim}
+u' = A u
+\end{equation}
+
+dove $ A \in \Mat_{d}(\mathbb{C}) $ e $ d \in \mathbb{N} $. I seguenti enunciati sono equivalenti:
+
+\begin{enumerate}
+\item Una soluzione di $ (\ref{equation:EDOmultidim}) $ \`e stabile o asintoticamente stabile; % ovvero exists epsilon :  | u - upert | < eps
+\item Ogni soluzione di $ (\ref{equation:EDOmultidim}) $ \`e stabile o asintoticamente stabile;
+\item La soluzione $ u \equiv 0 $ di $ (\ref{equation:EDOmultidim}) $ \`e stabile o asintoticamente stabile; % basta perturbare quella per capire cosa succede
+\item $ \forall\ u $ soluzione di $ (\ref{equation:EDOmultidim}) $ vale, $ \forall\ t \ge 0, \vert u(t) \vert \le C \vert u(0) \vert $, con $ C $ indipendente da $ u $ ($\lim\limits_{t \to \infty} u(t) = 0 $).
+\end{enumerate}
+
+Se uno e quindi tutti soddisfano $ (\ref{equation:EDOmultidim}) $ si dice stabile o asintoticamente stabile. Data $ M \in \GL_{d}(\mathbb{C}) $, questo equivale anche a 
+
+\begin{enumerate}
+\item[5.] $ u' = M A M^{-1} u $ \`e stabile o asintoticamente stabile.
+\end{enumerate}
+
+\begin{proof}
+Per esercizio.
+\end{proof}
+
+\subsection{Spettro}
+Dato $ A \in \Mat_{d}(\mathbb{C}) $ sia 
+\[ \sigma(A) = \{ \lambda \in \mathbb{C} : \det(A - \lambda I) = 0 \} \]
+
+lo spettro di $ A $, dove $ I $ \`e la matrice identit\`a. Per ogni autovalore $ \lambda \in \sigma(A) $, sia $ i(\lambda) $ la dimensione massima del blocco di Jordan associato all'autovalore $ \lambda $. Infine si pone:
+
+\[ \nu(A) \defeq \max\limits_{\lambda \in \sigma(A)} \Re(\lambda) \]
+
+detto l'ascissa spettrale di $ \lambda $. 
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+	\draw[->] (-4,0) -- (4,0) node[right] {$ \mathbb{R} $};
+	\draw[->] (0,-2) -- (0,4) node[above] {$ \mathbb{R} $};
+
+	\draw (-3, 2) circle (1pt);
+	\draw (2, 3) circle (1pt);
+	\draw (-1,1.5) circle (1pt);
+	\draw (0.2,-1.5) circle (1pt);
+	\draw (3,-2) circle (1pt);
+	\draw (-2,-1) circle (1pt);
+
+	\draw[dashed] (2,3) -- (2,0) node[below] {$ \nu(\lambda) $};
+\end{tikzpicture}
+
+\caption{Esempio di discretizzazione dell'asse delle $ t $. $ \tau $ \`e la distanza tra i vari nodi ed \`e costante.}
+\end{center}
+\end{figure}
+
+\subsection{Caratterizzazione della stabilit\`a}	\label{section:21.3}
+Sia $ A \in \Mat_{d}(\mathbb{C}) $. L'EDO $ u' = A u $ \`e stabile (o asintoticamente stabile) se e solo se
+
+\[ \nu(A) \le 0 \text{ (o } \nu(A) < 0) \]
+
+e
+
+\[ \forall\ \lambda \in \sigma(A), \Re(\lambda) = 0 \implies i(\lambda) = 1 \]
+
+\begin{proof}
+In virt\`u di \refsec{21.1} basta verificare l'equivalenza per la forma normale di Jordan. Inoltre grazie all'esercitazione, basta considerare un blocco di Jordan
+
+\[ J = \lambda I + N \in \Mat_{k} (\mathbb{C}) \]
+
+dove $ k \le i(\lambda) $, $ I = \begin{pmatrix} 
+1 & 0 & 0 & \ldots & 0 \\
+0 & 1 & 0 & \ldots & 0 \\
+0 & 0 & \ddots & \ddots & 0 \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+0 & 0 & 0 & \ldots & 1 \\
+\end{pmatrix} $, mentre $ N = \begin{pmatrix}
+0 & 1 & 0 & \ldots & 0 \\
+0 & 0 & 1 & \ldots & 0 \\
+0 & 0 & \ddots & \ddots & 0 \\
+\vdots & \vdots & \ddots & \ddots & 1 \\
+0 & 0 & 0 & \ldots & 0 \\\end{pmatrix} $. Si osserva che
+
+\begin{equation}	\label{equation:exptJ}
+\exp(t J) = \exp(t(\lambda I + N)) = \exp(t \lambda I) \exp(t N) \stackrel{N^{k} = 0}{=} e^{t \lambda} \left( \sum\limits_{l = 0}^{k - 1} \frac{t^{l}}{l!} N^{l} \right)
+\end{equation}
+
+Denotando la norma matriciale indotta dalla norma euclidea $ \vert \cdot \vert $ in $ \mathbb{C}^{d} $ con $ \Vert \cdot \Vert $ si ha
+
+\[ \Vert \exp (tJ) \Vert \le e^{t \Re(\lambda)} \left( \sum\limits_{l = 0}^{k - 1} \frac{t^{l}}{l!} \Vert N \Vert^{l} \right) \]
+
+da cui si evince la sufficienza dei criteri su $ \sigma(A) $. Per la necessit\`a basta applicare $ (\ref{equation:exptJ}) $ su $ (0, 0, \dotsc, 0, 1) \in \mathbb{C}^{k} $ e $ \left\vert \exp (t J) \begin{pmatrix} 0 \\ \vdots \\ 0 \\ 1 \end{pmatrix} \right\vert = \left\vert \left( \frac{t^{k - 1}}{(k - 1)!}, \dotsc, t, 1 \right) \right\vert $ rimane limitato.
+\end{proof}
+
+\section{Stabilit\`a e metodi di Runge-Kutta espliciti} % 22
+\subsection{Funzioni di stabilit\`a dei metodi RK}	\label{section:22.1}
+Sia $ R $ la funzione di stabilit\`a del metodo di Runge-Kutta 
+
+\begin{center}
+\begin{tabular}{c|c}
+$ \underline{c} $ & $ A $ \\
+\hline
+				  & $ \underline{b}^{T} $ \\
+\end{tabular}
+\end{center}
+
+Allora 
+
+\begin{enumerate}
+\item $ R(z) = 1 + z b^{T} (I - zA)^{-1} \underline{e} $ con $ \underline{e} = (1 , \dotsc, 1)^{T} \in \mathbb{R}^{s} $;
+\item Esistono polinomi $ P, Q \in \mathbb{P}_{s} $ senza divisori comuni e $ P(0) = Q(0) = 1 $ tali che
+
+\[ R(z) = \frac{P(z)}{Q(z)} \]
+
+con $ z \in \mathbb{C} $ e $ Q(z) \ne 0 $;
+\item Se il metodo \`e esplicito allora $ R \in \mathbb{P}_{s} $
+\end{enumerate}
+
+\begin{proof}
+\noindent
+\begin{enumerate}
+\item Esercizio E8.1;	% TODO: aggiungere
+\item Applicando la regola di Cramer si ottiene:
+
+\[ [(I - zA)^{-1} \underline{e} ]_{i} = \frac{P_{i} (z)}{\det (I - zA)} \]
+
+con $ P_{i} \in \mathbb{P}_{s - 1} $ per $ i = 1, \dotsc, s $. Inoltre, definendo
+
+\[ Q(z) = \det (I - zA) \]
+
+e
+
+\[ P(z) = 1 + z \sum\limits_{i = 1}^{s} b_{i} \underbrace{P_{i}(z)}_{\in \mathbb{P}_{s - 1}} \]
+
+si ha
+
+\begin{itemize}
+\item $ Q \in \mathbb{P}_{s} $ e $ Q(0) = \det (I) = 1 $;
+\item $ P \in \mathbb{P}_{s} $ e $ P(0) = 1 + 0 = 1 $;
+\item $ R(z) = 1 + zb^{T} (I - zA)^{-1} \underline{e} = \frac{P(z)}{Q(z)} $
+\end{itemize}
+
+\item Se $ a_{ij} = 0 $ per $ i \ge j $, allora $ I - zA $ \`e triangolare e quindi $ Q(z) = \det (I - zA) = 1 $.
+\end{enumerate}
+\end{proof}
+
+\subsection{Dominio di stabilit\`a di metodi RKE}	\label{section:22.2}
+Per ogni metodo Runge-Kutta esplicito (RKE) consistente esiste un $ r \in \mathbb{R}^{+} $ tale che il suo dominio di stabilit\`a soddisfa
+
+\[ S = \{ z \in \mathbb{C} : \vert R(z) \vert \le 1 \} \subseteq B_{r}(0) \defeq \{ z \in \mathbb{C} : \vert z \vert < r \} \]
+
+\begin{proof}
+Combinando \refsec{22.1} (c) e E7.3 (c) si ottiene:
+
+\[ R \in \mathbb{P}_{s} \setminus \mathbb{P}_{0} \]
+
+cio\`e
+
+\[ R(z) = \sum\limits_{i = 0}^{k} \alpha_{i} z^{i} \]
+
+con $ \alpha_{k} \ne 0 $ e $ k \in \{ 1, \dotsc, s \} $. Di conseguenza,
+
+\[ \vert R(z) \vert \ge \vert \alpha_{k} \vert \vert z \vert^{k} - \sum\limits_{i = 0}^{k} \vert \alpha_{i} \vert \vert z \vert^{i} = \underbrace{\vert \alpha_{k} \vert}_{\ne 0} \underbrace{\vert z \vert^{k}}_{\to \infty} \left( 1 - \underbrace{\sum\limits_{i = 0}^{k - 1} \frac{\vert \alpha_{i} \vert}{\vert \alpha_{k} \vert} \vert z \vert^{i - k}}_{\to 0 \text{ per } \vert z \vert \to \infty} \right) \]
+
+Dunque esiste $ r > 0 $ tale che $ \vert R(z) \vert \ge 1 $ per $ \vert z \vert \ge r $. 
+\end{proof}
+
+\subsection{Stabilit\`a e accuratezza}
+Si consideri l'applicazione di un metodo RKE sul problema di Dahlquist
+
+\begin{equation}	\label{equation:Dahlquist}
+\begin{cases}
+u' = \lambda u \\
+u(0) = 1 
+\end{cases}
+\end{equation}
+
+con $ \lambda \ll 0 $. \refsec{22.2} mostra che pu\`o valere $ \tau \lambda \in S $ solo se $ \vert \tau \lambda \vert < r $, ovvero $ \tau \le \frac{r}{\vert \lambda \vert} $, che richiede passi molto piccoli. Dall'altra parte la derivata $ p $-esima della soluzione soddisfa
+
+\[ \vert u^{(p)} \vert \le \vert \lambda \vert^{p} e^{\lambda t} \]
+
+e quindi l'errore di consistenza permetterebbe passi pi\`u grandi andando avanti nel tempo.
+
+\section{Stabilit\`a di ricorsioni e funzioni razionali}
+\subsection{Stabilit\`a di ricorsioni lineari}
+
+Sia $ M \in \Mat_{d}(\mathbb{C}) $ una matrice. La ricorsione $ U_{n + 1} = M U_{n} $ si dice:
+\begin{enumerate}
+\item stabile se $ \sup\limits_{n \in \mathbb{N}} \Vert M^{n} \Vert < +\infty $;
+\item asintoticamente stabile se $ \lim\limits_{n \to \infty} \Vert M^{k} \Vert = 0 $
+\end{enumerate}
+
+Si osserva che queste propriet\`a dipendono dalla classi di equivalenza di similitudine. Pi\`u precisamente, si ha 
+
+\begin{itemize}
+\item $ 1. \iff \rho (M) \le 1 $, dove $ \rho(M) = \max\limits_{\lambda \in \sigma(M)} \vert \lambda \vert $;
+\item $ 2. \iff \rho (M) < 1 $.
+\end{itemize}
+
+\begin{proof}
+Basta considerare un blocco di Jordan
+
+\[ J = \lambda I + N \in \Mat_{k}(\mathbb{C}) \]
+
+con $ \lambda \in \sigma(M), k \le i(\lambda), I $ \`e la matrice identit\`a e $ N $ quella nilpotente definite in \refsec{21.3}. Usando le propriet\`a di $ N $, si ottiene $ n \ge k $. 
+
+\begin{dmath*}
+{ \vert \lambda \vert^{n} \left\vert \left( \begin{pmatrix} n \\ k - 1 \end{pmatrix} \lambda^{-k + 1}, \dotsc, \begin{pmatrix} n \\ 1 \end{pmatrix} \lambda^{-1}, 1 \right) \right\vert } = { \vert J^{n} e_{k} \vert } \le { \Vert J^{k} \Vert } \\ \le { \vert \lambda \vert^{n} \left[  1 + \vert \lambda \vert^{-1} \begin{pmatrix} n \\ 1 \end{pmatrix} \Vert N \Vert + \dotsb + \vert \lambda \vert^{-k + 1} \begin{pmatrix} n \\ k - 1 \end{pmatrix} \Vert N \Vert^{k - 1} \right] }
+\end{dmath*}
+
+da cui segue la tesi.
+\end{proof}
+
+\subsection{Spettro di matrici e funzioni razionali}	% TODO: ricontrollare e dividere in punti
+Siano $ R $ una funzione razionale in $ \mathbb{C} $, cio\`e $ R = \frac{P}{Q} $ dove $ P, Q $ sono polinomi su $ \mathbb{C} $ e $ A \in \Mat_{d} (\mathbb{C}) $. Se
+
+\[ \sigma(A) \cap \{ z \in \mathbb{C} : Q(z) = 0 \} = \varnothing \]
+
+allora $ Q(A) $ \`e invertibile e si pone
+
+\[ R(A) = Q(A)^{-1} P(A) \]
+
+In questo caso si ha $ \sigma(R(A)) ) \{ R(\lambda) : \lambda \in \sigma(A) \} $ e $ i(\underbrace{\mu}_{\in \sigma(R(A))}) \le \max \{ i(\lambda) : \lambda \in \sigma(A), \mu = R(\lambda) \} $
+
+\begin{proof}
+\noindent
+\begin{enumerate}
+\item Per l'invertibilit\`a di $ Q(A) $ basta considerare un blocco di Jordan $ J = \lambda I + N $ come prima. Uno sviluppo di Taylor fornisce
+
+\[ Q(J) = Q(\lambda) I + \sum\limits_{i = 1}^{\min \{\deg Q, k \}} \frac{Q^{(i)}(\lambda)}{i!} N^{i} = Q(\lambda) I + N_{Q} \]
+
+con $ k $ il grado del blocco di Jordan, $ N_{Q} = \begin{pmatrix}
+0 & \ast & \ast & \ldots & \ast \\
+0 & 0 & \ast & \ldots & \ast \\
+0 & 0 & \ddots & \ddots & \ast \\
+\vdots & \vdots & \ddots & \ddots & \ast \\
+0 & 0 & 0 & \ldots & 0 \\\end{pmatrix} $ e $ Q(I) $ \`e invertibile se e solo se $ Q(\lambda) \ne 0 $
+\item Nuovamente basta considerare un blocco di Jordan. Come in 1. si scrive
+
+\[ P(J) = P(\lambda) I + N_{p} \]
+
+e si osserva che
+
+\[ Q(J)^{-1} = \frac{1}{Q(J)} I  + N_{Q^{-1}} \]
+poich\'e l'inverso di una matrice tridiagonale \`e una matrice tridiagonale. Quindi
+
+\[ R(J) = Q(J)^{-1} P(J) = \left( \frac{1}{Q(\lambda)} I + N_{Q^{-1}} \right) \left( P(\lambda)I + N_{P}  \right) = \frac{P(\lambda)}{Q(\lambda)} I  + \underbrace{P(\lambda) N_{Q^{-1}} + \frac{1}{Q(\lambda)} N_{P} + N_{Q^{-1}} N_{P}}_{= \begin{pmatrix} 0 &   & \ast \\ & \ddots & \\0 &  & 0 \end{pmatrix}} \]
+
+da cui segue l'affermazione.
+\end{enumerate}
+\end{proof}
+
+\section{A-stabilit\`a e L-stabilit\`a}
+\subsection{Un ausiliario: teorema del modulo massimo}	\label{section:24.1}
+Sia $ R: D \to \mathbb{C} $ una funzione razionale senza zeri al denominatore ma non nel numeratore nell'aperto connesso $ D \subseteq \mathbb{C} $. Se $ \forall\ z \in D, \vert f(z) \vert \le \vert f(z_{0}) \vert $ per qualche $ z_{0} \in D $ allora $ f $ \`e costante.
+
+\begin{proof}
+Dal momento che $ R $ non ha poli in $ D $ allora $ R $ \`e olomorfo (derivabile in $ \mathbb{C} $) in $ D $ e cos\`i l'enunciato \`e un caso particolare dell'omonimo teorema di analisi complessa.
+\end{proof}
+
+\subsection{A-stabile}
+Sia $ R $ la funzione di stabilit\`a di un metodo di Runge-Kutta consistente. Il metodo si dice A-stabile se una delle tre equivalenti condizioni \`e soddisfatta:
+\begin{enumerate}
+\item $ \forall\ d \in \mathbb{N}, A \in \Mat_{d}(\mathbb{C}), u' = Au $ asintoticamente stabile $ \implies U_{n + 1} = R(\tau A) U_{n} $ asintoticamente stabile, $ \forall\ \tau > 0 $;
+\item $ \forall\ d \in \mathbb{N}, A \in \Mat_{d}(\mathbb{C}), u' = Au \text{ stabile} \implies U_{n + 1} = R(\tau A) U_{n} \text{ stabile}, \forall\ \tau > 0 $;
+\item $ \mathbb{C}^{-} \defeq \{ z \in \mathbb{C} : \Re (z) \le 0 \} = \{ z \in \mathbb{C} : \vert e^{z} \vert \le 1 \} \subseteq S = \{ z \in \mathbb{C} : \vert R(z) \Vert \le 1 \} $
+\end{enumerate}
+
+\begin{proof}
+Viene dimostrato solo $ 1. \iff 3. $. Similmente si dimostra $ 2. \iff 3. $.
+\begin{itemize}
+\item[$ 1. \implies 3. $] Dato $ z \in \mathbb{C}^{-} \setminus i\mathbb{R} $ si scrive $ z = \tau \lambda $ con $ \lambda \in \mathbb{C} \setminus i\mathbb{R} $ e $ \tau > 0 $. Quindi $ u' = \lambda u $ \`e asintoticamente stabile, allora per $ 1. $ si ha che $ U_{n + 1} = R(\tau \lambda) U_{n} $ \`e asintoticamente stabile, cio\`e $ \vert R(\tau \lambda) \vert < 1, \forall\ \tau > 0 $. Riassumento, $ \forall\ z \in \mathbb{C}, \Re (z) < 0 \implies \vert R(z) \vert < 1 $. Poich\'e $ R $ \`e continua su $ \mathbb{C}^{-} $ questo implica $ \forall\ z \in \mathbb{C}, \Re(z) \le 0 \implies \vert R(z) \vert \le 1 $, ovvero $ \mathbb{C}^{-} \subseteq S $;
+\item[$ 3. \implies 1. $] Sia $ \mathbb{C}^{-} \subseteq \{ z \in \mathbb{C} : \vert R(z) \vert \le 1 \} $. In particolare, $ R $ non ha poli in $ \{ z \in \mathbb{C} : \Re(z) < 0 \} $ e, per la consistenza di $ R $, non \`e costante. Quindi il teorema del modulo massimo in \refsec{24.1} si ha che
+
+\begin{equation}	\label{eq:modmax}
+\forall\ z \in \mathbb{C}, \Re (z) < 0 \implies \vert R(z) \vert < 1
+\end{equation}
+
+Dato $ A \in \Mat_{d}(\mathbb{C}) $ e $ \tau > 0 $, se ne deduce che $ u' = Au $ \`e asintoticamente stabile $ \stackrel{\refsec{21.3}}{\implies} \forall\ \lambda \in \sigma(A), \Re(\lambda) < 0 \stackrel{(\ref{eq:modmax})}{\implies} \forall\ \lambda \in \sigma(A), \vert R(\tau \lambda) \vert < 1 \implies \rho (R(\tau A)) < 1 \implies U_{n + 1} = R(\tau A) U_{n} $ \`e stabile. 
+\end{itemize}
+\end{proof}
+
+\subsection{L-stabile}
+Sia $ R $ la funzione di stabilit\`a di un metodo RK consistente. Il metodo si dice L-stabile se \`e A-stabile e soddisfa una delle seguenti condizioni equivalenti:
+\begin{enumerate}
+\item $ \forall\ A \in \Mat_{d}(\mathbb{C}), u' = A u $ asintoticamente stabile $ \implies \lim\limits_{\tau \to \infty} \Vert R(\tau A) \Vert = 0 $;
+\item $ \lim\limits_{\Re(z) \to -\infty} R(z) = 0 $;
+\item $ \lim\limits_{\Re(z) \to \infty} R(z) = 0 $;
+\end{enumerate}
+
+\begin{proof}
+Usufruire il fatto che $ R $ \`e quoziente di due polinomi, $ R = \frac{P}{Q} $ dove $ P \in \mathbb{P}_{s} $ e $ Q \in \mathbb{P}_{t} $ e quindi $ 1. $ e $ 3. $ sono equivalenti per $ s < t $.
+\end{proof}
 \end{document}
